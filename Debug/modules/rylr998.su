@@ -1,0 +1,4 @@
+rylr998.c:12:18:rylr998_test	16	static
+rylr998.c:27:6:rylr998_enable	8	static
+rylr998.c:32:6:rylr998_disable	8	static
+rylr998.c:37:18:rylr998_transmit	4	static
