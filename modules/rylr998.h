@@ -14,6 +14,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include <main.h>
+
 //AT Command Set
 #define TEST					"AT"
 #define AT						"AT+"
@@ -30,10 +32,12 @@
 #define RCV						"RCV"		//Show the received data actively
 #define UID						"UID"		//To inquire module ID. 12BYTES
 #define VER						"VER"
+#define OK						"OK"
 
 #define TERMINATOR				"\r\n"
 #define CHECK					"?"
 #define SET_VALUE				"="
+#define RX_PACKET_START			"+"
 
 #define RYLR998_ADDRESS			0x01
 
@@ -42,6 +46,10 @@
 #define AT_SET_VALUE_SIZE		0x01
 #define AT_OVERHEAD_SIZE		(AT_PRIFEX_SIZE + AT_TERMINATOR_SIZE + AT_SET_VALUE_SIZE)
 #define AT_ADDRESS_SIZE			0x02
+
+#define RESPONSE_OFFSET			0x01		//offset by 1 to ignore + character after checking it
+#define ADDRESS_OFFSET			0x09		//offset to where the data is located in the address get command response
+
 
 //RYLR998 pins
 #define RYLR998_RST_Pin 		GPIO_PIN_14
@@ -88,6 +96,15 @@ typedef enum
 	CR3,
 	CR4
 } Rylr998CodingRate_e;
+
+typedef enum
+{
+	Rylr998R_OK = 0x00U,
+	Rylr998R_ADDRESS,
+	Rylr998R_RCV,
+	Rylr998R_NOT_FOUND
+
+} Rylr998RxCommand_e;
 
 typedef enum
 {
@@ -191,11 +208,14 @@ extern UART_HandleTypeDef hUart;
 extern Rylr998Handler_t   hLoRaModule;
 
 
-void 			 rylr998_disable	(void);
-void 			 rylr998_enable		(void);
-Rylr998_Status_t rylr998Test		(void);
-Rylr998_Status_t rylr998GetAddress	(Rylr998Handler_t* hRylr998);
-Rylr998_Status_t rylr998SetAddress	(uint16_t address);
-Rylr998_Status_t rylr998Send		(Rylr998Handler_t* hRylr998, uint16_t address);
+void 			 	rylr998_disable				(void);
+void 			 	rylr998_enable				(void);
+Rylr998_Status_t 	rylr998Test					(void);
+Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
+Rylr998_Status_t 	rylr998SetAddress			(uint16_t address);
+Rylr998_Status_t 	rylr998Send					(Rylr998Handler_t* hRylr998, uint16_t address);
+Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
+
+Rylr998RxCommand_e rylr998ResponseFind			(uint8_t* rxBuffer);
 
 #endif /* RYLR998_H_ */

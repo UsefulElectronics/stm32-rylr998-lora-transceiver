@@ -21,7 +21,7 @@ Rylr998_Status_t rylr998Test(void)
 
 	strcat((char*) uartTxBuffer, TERMINATOR);
 
-	ret = HAL_UART_Transmit(&hUart, uartTxBuffer, packetSize, 10);
+	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
 	return ret;
 }
@@ -43,7 +43,7 @@ Rylr998_Status_t rylr998SetAddress(uint16_t address)
 	strcat((char*) uartTxBuffer, (char*) rylr998Address);
 	strcat((char*) uartTxBuffer, TERMINATOR);
 
-	ret = HAL_UART_Transmit(&hUart, uartTxBuffer, packetSize, 10);
+	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
 	return ret;
 }
@@ -59,11 +59,11 @@ Rylr998_Status_t rylr998GetAddress(Rylr998Handler_t* hRylr998)
 	strcat((char*)uartTxBuffer, CHECK);
 	strcat((char*)uartTxBuffer, TERMINATOR);
 
-	ret = HAL_UART_Transmit(&hUart, uartTxBuffer, packetSize, 10);
+	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
 
 
-	ret = HAL_UART_Receive_IT(&hUart, hRylr998->rylr998Receiver.rxBuffer, 12);
+	ret = HAL_UART_Receive_IT(&huart1, hRylr998->rylr998Receiver.rxBuffer, 12);
 
 	return ret;
 }
@@ -97,7 +97,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, uint16_t address)
 
 	strcat((char*) uartTxBuffer, TERMINATOR);
 
-	ret = HAL_UART_Transmit(&hUart, uartTxBuffer, hRylr998->rylr998Transmitter.payloadLength, 10);
+	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, hRylr998->rylr998Transmitter.payloadLength, 10);
 
 	return ret;
 }
@@ -105,8 +105,51 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, uint16_t address)
 Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 {
 	Rylr998_Status_t 	ret 					= Rylr998_ERROR;
+	Rylr998RxCommand_e  command;
 	uint8_t 			uartRxBuffer[250] 		= {0};
 
+//	if(hRylr998->rylr998Receiver.rxBuffer[0] == RX_PACKET_START)
+	if(!memcmp(hRylr998->rylr998Receiver.rxBuffer, RX_PACKET_START, 1))
+	{
+		command = rylr998ResponseFind	(hRylr998->rylr998Receiver.rxBuffer + RESPONSE_OFFSET);
+		switch (command)
+		{
+			case Rylr998R_OK:
+
+				break;
+			case Rylr998R_ADDRESS:
+				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] == 0x00)
+				{
+					hRylr998->rylr998Receiver.address = RYLR998_ADDRESS;
+					rylr998SetAddress(hRylr998->rylr998Receiver.address);
+				}
+				break;
+			case Rylr998R_RCV:
+
+				break;
+			default:
+				break;
+		}
+	}
+
+	return ret;
+}
+
+Rylr998RxCommand_e rylr998ResponseFind(uint8_t* rxBuffer)
+{
+	Rylr998RxCommand_e 	ret 					= Rylr998R_NOT_FOUND;
+	if(!memcmp(rxBuffer, ADDRESS, 7))
+	{
+		return ret = Rylr998R_ADDRESS;
+	}
+	else if(!memcmp(rxBuffer, RCV, 3))
+	{
+		return ret = Rylr998R_RCV;
+	}
+	else if(!memcmp(rxBuffer, OK, 2))
+	{
+		return ret = Rylr998R_OK;
+	}
 	return ret;
 }
 
