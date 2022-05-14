@@ -15,17 +15,41 @@
 #include <stdbool.h>
 
 //AT Command Set
-#define AT						"AT"
-#define RESET					"+RESET"
-#define TERMINATOR				"\r\n"
+#define TEST					"AT"
+#define AT						"AT+"
 
+#define RESET					"RESET"		//Software RESET
+#define MODE					"MODE"		//Set the wireless work mode.
+#define IPR						"IPR"		//Set the UART baud rate
+#define PARAMETERS				"PARAMETERS"//Set the RF parameters
+#define BAND					"BAND"		//Set RF Frequency
+#define ADDRESS					"ADDRESS"	//Set the ADDRESS ID of module LoRa.
+#define NETWORKID				"NETWORKID"	//Set the network ID.
+#define CRFOP					"CRFOP"		//Set the RF output power.
+#define SEND					"SEND"		//Send data to the appointed address by Command Mode.
+#define RCV						"RCV"		//Show the received data actively
+#define UID						"UID"		//To inquire module ID. 12BYTES
+#define VER						"VER"
+
+#define TERMINATOR				"\r\n"
+#define CHECK					"?"
+#define SET_VALUE				"="
+
+#define RYLR998_ADDRESS			0x01
+
+#define AT_PRIFEX_SIZE			0x03
+#define AT_TERMINATOR_SIZE		0x02
+#define AT_SET_VALUE_SIZE		0x01
+#define AT_OVERHEAD_SIZE		(AT_PRIFEX_SIZE + AT_TERMINATOR_SIZE + AT_SET_VALUE_SIZE)
+#define AT_ADDRESS_SIZE			0x02
 
 //RYLR998 pins
 #define RYLR998_RST_Pin 		GPIO_PIN_14
 #define RYLR998_RST_GPIO_Port 	GPIOB
 
-//Global variables
-extern UART_HandleTypeDef hUart;
+
+
+
 
 //<Programmed Preamble>4~24, (default 12)
 typedef uint8_t Preamble4_24_t;
@@ -108,7 +132,7 @@ typedef struct
 
 typedef struct
 {
-	uint16_t 			address;
+	uint8_t 			address[2];
 	uint8_t				payloadLength;
 	uint8_t				TxBuffer[240];
 
@@ -162,11 +186,16 @@ typedef struct
 
 }Rylr998Handler_t;
 
+//Global variables
+extern UART_HandleTypeDef hUart;
+extern Rylr998Handler_t   hLoRaModule;
 
 
-void rylr998_disable				(void);
-void rylr998_enable					(void);
-Rylr998_Status_t rylr998_test		(void);
-
+void 			 rylr998_disable	(void);
+void 			 rylr998_enable		(void);
+Rylr998_Status_t rylr998Test		(void);
+Rylr998_Status_t rylr998GetAddress	(Rylr998Handler_t* hRylr998);
+Rylr998_Status_t rylr998SetAddress	(uint16_t address);
+Rylr998_Status_t rylr998Send		(Rylr998Handler_t* hRylr998, uint16_t address);
 
 #endif /* RYLR998_H_ */
