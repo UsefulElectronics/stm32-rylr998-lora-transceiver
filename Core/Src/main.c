@@ -90,8 +90,10 @@ int main(void)
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   rylr998_enable();
-  HAL_Delay(10);
+  HAL_Delay(100);
   rylr998GetAddress(&hLoRaModule);
+//    uint8_t address[1] = {'0'};
+//    rylr998SetAddress(address);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,11 +101,12 @@ int main(void)
   while (1)
   {
 
-	  HAL_Delay(1000);
-	  rylr998GetAddress(&hLoRaModule);
-	  if(hLoRaModule.rylr998Flag.bit.B0)
+//	  HAL_Delay(1000);
+//	  rylr998GetAddress(&hLoRaModule);
+	  if(RYLR998_ReadInterruptFlag())
 	  {
-		  hLoRaModule.rylr998Flag.bit.B0 = DISABLE;
+		  RYLR998_WirteInterruptFlag(DISABLE);
+
 		  rylr998ReceivePacketParser(&hLoRaModule);
 	  }
     /* USER CODE END WHILE */
@@ -248,7 +251,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+  /* Prevent unused argument(s) compilation warning */
+	 RYLR998_WirteInterruptFlag(ENABLE);
+  UNUSED(huart);
+  /* NOTE: This function should not be modified, when the callback is needed,
+           the HAL_UART_RxCpltCallback could be implemented in the user file
+   */
+}
 /* USER CODE END 4 */
 
 /**

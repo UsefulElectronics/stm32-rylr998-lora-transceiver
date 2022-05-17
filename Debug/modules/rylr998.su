@@ -1,9 +1,11 @@
 rylr998.c:14:18:rylr998Test	16	static
 rylr998.c:29:18:rylr998SetAddress	40	static
-rylr998.c:51:18:rylr998GetAddress	32	static
-rylr998.c:72:18:rylr998Send	32	static
-rylr998.c:105:18:rylr998ReceivePacketParser	272	static
+rylr998.c:48:18:rylr998GetAddress	32	static
+rylr998.c:69:18:rylr998Send	32	static
+rylr998.c:102:18:rylr998ReceivePacketParser	272	static
 rylr998.c:137:20:rylr998ResponseFind	24	static
-rylr998.c:155:6:rylr998_enable	8	static
-rylr998.c:160:6:rylr998_disable	8	static
-rylr998.c:165:18:rylr998_transmit	4	static
+rylr998.c:155:6:rylr998Int2Ascii	16	static
+rylr998.c:160:6:rylr998Ascii2Int	16	static
+rylr998.c:165:6:rylr998_enable	8	static
+rylr998.c:170:6:rylr998_disable	8	static
+rylr998.c:175:18:rylr998_transmit	4	static

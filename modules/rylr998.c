@@ -26,21 +26,18 @@ Rylr998_Status_t rylr998Test(void)
 	return ret;
 }
 //AT+ADDRESS=<Address>
-Rylr998_Status_t rylr998SetAddress(uint16_t address)
+Rylr998_Status_t rylr998SetAddress(uint8_t* address)
 {
 	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
-	const uint8_t 		packetSize 			= 15;
-	uint8_t 			uartTxBuffer[15] 	= {0};
+	const uint16_t 		packetSize 			= 14;
+	uint8_t 			uartTxBuffer[14] 	= {0};
 	uint8_t 			rylr998Address[2]	= {0};
-
-	rylr998Address[0] = (address & 0xFF00) >> 8;
-	rylr998Address[1] = address & 0x00FF;
 
 	memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
 	strcat(uartTxBuffer, ADDRESS);
 	strcat(uartTxBuffer, SET_VALUE);
 
-	strcat((char*) uartTxBuffer, (char*) rylr998Address);
+	strcat((char*) uartTxBuffer,  address);
 	strcat((char*) uartTxBuffer, TERMINATOR);
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
@@ -62,7 +59,7 @@ Rylr998_Status_t rylr998GetAddress(Rylr998Handler_t* hRylr998)
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
 
-
+	memset(hRylr998->rylr998Receiver.rxBuffer, RESET, 20);
 	ret = HAL_UART_Receive_IT(&huart1, hRylr998->rylr998Receiver.rxBuffer, 12);
 
 	return ret;
@@ -118,9 +115,11 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 
 				break;
 			case Rylr998R_ADDRESS:
+				rylr998Ascii2Int(&hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET]);
 				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] == 0x00)
 				{
-					hRylr998->rylr998Receiver.address = RYLR998_ADDRESS;
+					hRylr998->rylr998Receiver.address[0] = RYLR998_ADDRESS;
+					rylr998Int2Ascii(hRylr998->rylr998Receiver.address);
 					rylr998SetAddress(hRylr998->rylr998Receiver.address);
 				}
 				break;
@@ -151,6 +150,16 @@ Rylr998RxCommand_e rylr998ResponseFind(uint8_t* rxBuffer)
 		return ret = Rylr998R_OK;
 	}
 	return ret;
+}
+
+void rylr998Int2Ascii(uint8_t* value)
+{
+	*value += 0x30;
+}
+
+void rylr998Ascii2Int(uint8_t* value)
+{
+	*value -= 0x30;
 }
 
 void rylr998_enable(void)

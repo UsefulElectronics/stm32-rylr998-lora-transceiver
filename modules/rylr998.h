@@ -20,7 +20,7 @@
 #define TEST					"AT"
 #define AT						"AT+"
 
-#define RESET					"RESET"		//Software RESET
+#define RESETART				"RESET"		//Software RESET
 #define MODE					"MODE"		//Set the wireless work mode.
 #define IPR						"IPR"		//Set the UART baud rate
 #define PARAMETERS				"PARAMETERS"//Set the RF parameters
@@ -51,12 +51,16 @@
 #define ADDRESS_OFFSET			0x09		//offset to where the data is located in the address get command response
 
 
+
+
+
 //RYLR998 pins
 #define RYLR998_RST_Pin 		GPIO_PIN_14
 #define RYLR998_RST_GPIO_Port 	GPIOB
 
 
-
+#define RYLR998_ReadInterruptFlag()			hLoRaModule.rylr998Flag.bit.B0
+#define RYLR998_WirteInterruptFlag(state)	hLoRaModule.rylr998Flag.bit.B0 = state
 
 
 //<Programmed Preamble>4~24, (default 12)
@@ -165,7 +169,7 @@ typedef struct
 
 typedef struct
 {
-	uint16_t 			address;
+	uint8_t 			address[2];
 	uint8_t				payloadLength;
 	uint8_t				rxBuffer[240];
 	int8_t				rssi;
@@ -210,9 +214,11 @@ extern Rylr998Handler_t   hLoRaModule;
 
 void 			 	rylr998_disable				(void);
 void 			 	rylr998_enable				(void);
+void 				rylr998Int2Ascii			(uint8_t* value);
+void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
-Rylr998_Status_t 	rylr998SetAddress			(uint16_t address);
+Rylr998_Status_t 	rylr998SetAddress			(uint8_t* address);
 Rylr998_Status_t 	rylr998Send					(Rylr998Handler_t* hRylr998, uint16_t address);
 Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
 

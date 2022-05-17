@@ -217,7 +217,8 @@ void EXTI0_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
-	hLoRaModule.rylr998Flag.bit.B0 = ENABLE;
+//	RYLR998_WirteInterruptFlag(ENABLE);
+
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
