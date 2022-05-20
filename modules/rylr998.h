@@ -15,7 +15,7 @@
 #include <stdbool.h>
 
 #include <main.h>
-
+#include "ulora.h"
 //AT Command Set
 #define TEST					"AT"
 #define AT						"AT+"
@@ -38,6 +38,7 @@
 #define CHECK					"?"
 #define SET_VALUE				"="
 #define RX_PACKET_START			"+"
+#define SEGMENT_SEPARATOR		","
 
 #define RYLR998_ADDRESS			0x01
 
@@ -153,8 +154,9 @@ typedef struct
 
 typedef struct
 {
+	uint32_t			timer;
 	uint8_t 			address[2];
-	uint8_t				payloadLength;
+	uint16_t			payloadLength;
 	uint8_t				TxBuffer[240];
 
 }Rylr998Transmitter_t;
@@ -219,7 +221,8 @@ void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998SetAddress			(uint8_t* address);
-Rylr998_Status_t 	rylr998Send					(Rylr998Handler_t* hRylr998, uint16_t address);
+Rylr998_Status_t 	rylr998Send					(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCommand);
+Rylr998_Status_t 	rylr998GetSent				(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
 
 Rylr998RxCommand_e rylr998ResponseFind			(uint8_t* rxBuffer);

@@ -6,21 +6,21 @@
  */
 
 
-#include <ulora.h>
+#include "ulora.h"
 
-Ulora_Status_t uloraCommunicationTest(Rylr998Transmitter_t* hModuleTransmitter)
+Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 {
 	ULoraHandler_t uloraHandler;
 	Ulora_Status_t ret = Ulora_ERROR;
-	uloraHandler.uloraPacketSize  = 3;
+	uloraHandler.uloraPacketSize  = ULORA_CONN_COUNT_SIZE;
 	uloraHandler.uloraDevicesCount = 1;
 
-
-	hModuleTransmitter->payloadLength = uloraHandler.uloraPacketSize;
-	hModuleTransmitter->TxBuffer[0] = ULORA_CONN_COUNT;
-	hModuleTransmitter->TxBuffer[1] = uloraHandler.uloraDevicesCount;
-	hModuleTransmitter->TxBuffer[2] = uloraPacketChecksum(hModuleTransmitter->TxBuffer,
-															uloraHandler.uloraPacketSize);
+	payloadBuffer[0] = ULORA_CONN_COUNT + '0';
+	payloadBuffer[1] = uloraHandler.uloraPacketSize + '0';
+	payloadBuffer[2] = uloraHandler.uloraDevicesCount + '0';
+//	payloadBuffer[3] =  uloraPacketChecksum(payloadBuffer,
+//											uloraHandler.uloraPacketSize) + '0';
+	payloadBuffer[3] = '7';
 	return ret;
 }
 

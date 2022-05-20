@@ -92,6 +92,9 @@ int main(void)
   rylr998_enable();
   HAL_Delay(100);
   rylr998GetAddress(&hLoRaModule);
+
+  hLoRaModule.rylr998Transmitter.address[0] = '0';
+  hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
 //    uint8_t address[1] = {'0'};
 //    rylr998SetAddress(address);
   /* USER CODE END 2 */
@@ -109,6 +112,17 @@ int main(void)
 
 		  rylr998ReceivePacketParser(&hLoRaModule);
 	  }
+	  if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
+	  {
+		  hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
+
+		  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
+
+		  HAL_Delay(20);
+		  rylr998GetSent(&hLoRaModule);
+	  }
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

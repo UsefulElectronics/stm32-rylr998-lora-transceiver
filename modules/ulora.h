@@ -8,11 +8,13 @@
 #ifndef ULORA_H_
 #define ULORA_H_
 
-#include <rylr998.h>
 
-#define ULORA_NAK				0x00
-#define ULORA_ACK				0x01
-#define ULORA_CONN_COUNT		0x02
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+#define ULORA_ACK_NAK_SIZE		0x01
+#define ULORA_CONN_COUNT_SIZE	0x04
 
 typedef enum
 {
@@ -23,18 +25,25 @@ typedef enum
 } Ulora_Status_t;
 
 
+typedef enum
+{
+	ULORA_NAK = 0x00U,
+	ULORA_ACK,
+	ULORA_CONN_COUNT,
+
+} UloraCommand_e;
+
 typedef struct
 {
 	bool 					uloraActivate;
-	uint32_t				uloraTimer;
 	uint8_t					uloraPacketSize;
-	uint8_t					uloraChecksum;
 	uint8_t					uloraDevicesCount;
+
 
 }ULoraHandler_t;
 
 
 uint8_t 		uloraPacketChecksum		(uint8_t* buffer, uint8_t packetSize);
-Ulora_Status_t 	uloraCommunicationTest	(Rylr998Transmitter_t* hModuleTransmitter);
+Ulora_Status_t 	uloraCommunicationTest	(uint8_t* hModuleTransmitter);
 
 #endif /* ULORA_H_ */
