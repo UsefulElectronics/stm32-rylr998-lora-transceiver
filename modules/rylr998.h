@@ -23,7 +23,7 @@
 #define RESETART				"RESET"		//Software RESET
 #define MODE					"MODE"		//Set the wireless work mode.
 #define IPR						"IPR"		//Set the UART baud rate
-#define PARAMETERS				"PARAMETERS"//Set the RF parameters
+#define PARAMETER				"PARAMETER"//Set the RF parameters
 #define BAND					"BAND"		//Set RF Frequency
 #define ADDRESS					"ADDRESS"	//Set the ADDRESS ID of module LoRa.
 #define NETWORKID				"NETWORKID"	//Set the network ID.
@@ -179,6 +179,21 @@ typedef struct
 
 }Rylr998Receiver_t;
 
+typedef enum
+{
+	Rylr998_BOUDRATE = 0x00U,
+	Rylr998_PARAMETER,
+	Rylr998_BAND,
+	Rylr998_ADDRESS,
+	Rylr998_NETWORKID,
+	Rylr998_CRFOP,			//Output Power
+	Rylr998_SEND, 			//Last sent data
+	Rylr998_UID,
+	Rylr998_VER,
+
+}Rylr998Command_e;
+
+
 /*
  * 	AT+FACTORY
 	Manufacturer defaults:
@@ -219,10 +234,13 @@ void 			 	rylr998_enable				(void);
 void 				rylr998Int2Ascii			(uint8_t* value);
 void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
+
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998SetAddress			(uint8_t* address);
+Rylr998_Status_t 	rylr998Get					(Rylr998Handler_t* hRylr998, Rylr998Command_e command);
 Rylr998_Status_t 	rylr998Send					(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCommand);
 Rylr998_Status_t 	rylr998GetSent				(Rylr998Handler_t* hRylr998);
+Rylr998_Status_t 	rylr998GetParameter			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
 
 Rylr998RxCommand_e rylr998ResponseFind			(uint8_t* rxBuffer);
