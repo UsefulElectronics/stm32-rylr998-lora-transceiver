@@ -45,11 +45,11 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
 Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
 {
 	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
-	const uint16_t 		packetSize 			= 14;
-	char 				uartTxBuffer[14] 	= {0};
+	uint16_t 			packetSize 		= 16;
+	char 				uartTxBuffer[16] 	= {0};
 	char 				tempNetworkId[2] 	= {0};
 
-	if(((networkId <= 3) && (networkId >= 15)) || (networkId == 18))
+	if(((networkId >= 3) && (networkId <= 15)) || (networkId == 18))
 	{
 		tempNetworkId[0] = networkId + '0';				//'0' is used to convert to ASCII
 
@@ -59,7 +59,7 @@ Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
 
 		strcat((char*) uartTxBuffer,  tempNetworkId);
 		strcat((char*) uartTxBuffer, TERMINATOR);
-
+		packetSize 		= 16;
 		ret = HAL_UART_Transmit(&huart1,(uint8_t*) uartTxBuffer, packetSize, 10);
 	}
 	return ret;
