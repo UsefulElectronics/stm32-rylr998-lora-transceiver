@@ -28,18 +28,40 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
 {
 	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
 	const uint16_t 		packetSize 			= 14;
-	uint8_t 			uartTxBuffer[14] 	= {0};
-
+	char	 			uartTxBuffer[14] 	= {0};
 
 	memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
 	strcat(uartTxBuffer, ADDRESS);
 	strcat(uartTxBuffer, SET_VALUE);
 
-	strcat((char*) uartTxBuffer,  address);
+	strcat((char*) uartTxBuffer, (char*)  address);
 	strcat((char*) uartTxBuffer, TERMINATOR);
 
-	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
+	ret = HAL_UART_Transmit(&huart1,(uint8_t*) uartTxBuffer, packetSize, 10);
 
+	return ret;
+}
+//AT+NETWORKID=<Network ID> <NetworkID>=3~15,18(default18)
+Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
+{
+	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
+	const uint16_t 		packetSize 			= 14;
+	char 				uartTxBuffer[14] 	= {0};
+	char 				tempNetworkId[2] 	= {0};
+
+	if(((networkId <= 3) && (networkId >= 15)) || (networkId == 18))
+	{
+		tempNetworkId[0] = networkId + '0';				//'0' is used to convert to ASCII
+
+		memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
+		strcat(uartTxBuffer, NETWORKID);
+		strcat(uartTxBuffer, SET_VALUE);
+
+		strcat((char*) uartTxBuffer,  tempNetworkId);
+		strcat((char*) uartTxBuffer, TERMINATOR);
+
+		ret = HAL_UART_Transmit(&huart1,(uint8_t*) uartTxBuffer, packetSize, 10);
+	}
 	return ret;
 }
 //AT+ADDRESS?
@@ -96,16 +118,17 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.address);
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
 
-	packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0';
+	packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
 	//-1 is used to omit null character from consideration
 	packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
 //	rylr998Int2Ascii(packetSizeAscii);
 
 
-	strcat((char*) uartTxBuffer,  packetSizeAscii);
+	strcat((char*) uartTxBuffer, (char*)  packetSizeAscii);
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.TxBuffer);
-	strcat((char*) uartTxBuffer, TERMINATOR);
+	memcpy(uartTxBuffer + 17, TERMINATOR, 2);
+//	strcat((char*) uartTxBuffer, TERMINATOR);
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
@@ -129,7 +152,7 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				break;
 			case Rylr998R_ADDRESS:
 				rylr998Ascii2Int(&hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET]);
-				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] == 0x00)
+				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] == 0x01)
 				{
 					hRylr998->rylr998Receiver.address[0] = RYLR998_ADDRESS;
 					rylr998Int2Ascii(hRylr998->rylr998Receiver.address);

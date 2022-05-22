@@ -40,7 +40,7 @@
 #define RX_PACKET_START			"+"
 #define SEGMENT_SEPARATOR		","
 
-#define RYLR998_ADDRESS			0x01
+#define RYLR998_ADDRESS			0x02
 
 #define AT_PRIFEX_SIZE			0x03
 #define AT_TERMINATOR_SIZE		0x02
@@ -234,6 +234,8 @@ void 			 	rylr998_enable				(void);
 void 				rylr998Int2Ascii			(uint8_t* value);
 void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
+
+Rylr998_Status_t 	rylr998SetNetworkId			(NetworkId3_15or18_t networkId);
 
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998SetAddress			(uint8_t* address);

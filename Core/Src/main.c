@@ -93,7 +93,7 @@ int main(void)
   HAL_Delay(100);
   rylr998Get(&hLoRaModule, Rylr998_ADDRESS);
 //  rylr998GetAddress(&hLoRaModule);
-
+  hLoRaModule.rylr998NetworkId = 6;
   hLoRaModule.rylr998Transmitter.address[0] = '1';
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
 //    uint8_t address[1] = {'0'};
@@ -105,8 +105,6 @@ int main(void)
   while (1)
   {
 
-//	  HAL_Delay(1000);
-//	  rylr998GetAddress(&hLoRaModule);
 	  if(RYLR998_ReadInterruptFlag())
 	  {
 		  RYLR998_WirteInterruptFlag(DISABLE);
@@ -119,7 +117,7 @@ int main(void)
 
 		  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
 
-		  HAL_Delay(10);
+		  HAL_Delay(20);
 		  rylr998Get(&hLoRaModule, Rylr998_SEND);
 
 
