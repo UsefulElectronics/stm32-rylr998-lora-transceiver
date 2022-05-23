@@ -236,7 +236,7 @@ void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
 
 Rylr998_Status_t 	rylr998SetNetworkId			(NetworkId3_15or18_t networkId);
-
+Rylr998_Status_t 	rylr998SetOutputPower		(Crfop0_22_t outpuPower);
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998SetAddress			(uint8_t* address);
 Rylr998_Status_t 	rylr998Get					(Rylr998Handler_t* hRylr998, Rylr998Command_e command);

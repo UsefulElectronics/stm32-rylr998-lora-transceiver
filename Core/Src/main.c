@@ -94,11 +94,14 @@ int main(void)
   rylr998Get(&hLoRaModule, Rylr998_ADDRESS);
 //  rylr998GetAddress(&hLoRaModule);
   hLoRaModule.rylr998NetworkId = 6;
+  hLoRaModule.Rylr998RfPower   = 10;
   hLoRaModule.rylr998Transmitter.address[0] = '1';
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
   HAL_Delay(20);
   rylr998SetNetworkId			(hLoRaModule.rylr998NetworkId);
-
+  HAL_Delay(30);
+  rylr998SetOutputPower			(hLoRaModule.Rylr998RfPower);
+  HAL_Delay(20);
 //    rylr998SetAddress(address);
   /* USER CODE END 2 */
 

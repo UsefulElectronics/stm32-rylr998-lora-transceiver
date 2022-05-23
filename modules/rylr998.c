@@ -64,6 +64,35 @@ Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
 	}
 	return ret;
 }
+//AT+CRFOP=<power> <power>0~22 dBm
+Rylr998_Status_t rylr998SetOutputPower(Crfop0_22_t outpuPower)
+{
+	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
+	uint16_t 			packetSize 			= 0;
+	char 				uartTxBuffer[16] 	= {0};
+	char 				tempOutputPower[3] 	= {0};
+
+	if(outpuPower <= 22)
+	{
+		tempOutputPower[1] = (outpuPower % 10);		//tens and units separations
+		tempOutputPower[0] = (outpuPower / 10) % 10;
+
+		tempOutputPower[1] += '0';
+		tempOutputPower[0] += '0';					//'0' is used to convert to ASCII
+
+
+
+		memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
+		strcat(uartTxBuffer, CRFOP);
+		strcat(uartTxBuffer, SET_VALUE);
+
+		strcat((char*) uartTxBuffer,  tempOutputPower);
+		strcat((char*) uartTxBuffer, TERMINATOR);
+		packetSize 		= 13;
+		ret = HAL_UART_Transmit(&huart1,(uint8_t*) uartTxBuffer, packetSize, 10);
+	}
+	return ret;
+}
 //AT+ADDRESS?
 Rylr998_Status_t rylr998GetAddress(Rylr998Handler_t* hRylr998)
 {
