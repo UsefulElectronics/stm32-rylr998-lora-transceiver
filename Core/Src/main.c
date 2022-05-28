@@ -116,34 +116,16 @@ int main(void)
 
 		  rylr998ReceivePacketParser(&hLoRaModule);
 	  }
-	  if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
+	  if(!HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin))
 	  {
-		  hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
+		  if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
+		  {
+			  hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
 
-		  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
-
-		  HAL_Delay(20);
-		  rylr998Get(&hLoRaModule, Rylr998_SEND);
-
-
-		  HAL_Delay(10);
-		  rylr998Get(&hLoRaModule, Rylr998_PARAMETER);
-
-		  HAL_Delay(10);
-		  rylr998Get(&hLoRaModule, Rylr998_NETWORKID);
-
-		  HAL_Delay(10);
-		  rylr998Get(&hLoRaModule, Rylr998_CRFOP);
-
-		  HAL_Delay(10);
-		  rylr998Get(&hLoRaModule, Rylr998_BAND);
-
-		  HAL_Delay(10);
-		  rylr998Get(&hLoRaModule, Rylr998_BOUDRATE);
-
-
-
+			  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
+		  }
 	  }
+
 
 
     /* USER CODE END WHILE */

@@ -16,7 +16,7 @@ Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 	uloraHandler.uloraDevicesCount = 1;
 
 	payloadBuffer[0] = ULORA_CONN_COUNT + '0';
-	payloadBuffer[1] = uloraHandler.uloraPacketSize + '0' + 1;
+	payloadBuffer[1] = uloraHandler.uloraPacketSize + '0' ;
 	payloadBuffer[2] = uloraHandler.uloraDevicesCount + '0';
 //	payloadBuffer[3] =  uloraPacketChecksum(payloadBuffer,
 //											uloraHandler.uloraPacketSize) + '0';

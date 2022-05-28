@@ -40,7 +40,7 @@
 #define RX_PACKET_START			"+"
 #define SEGMENT_SEPARATOR		","
 
-#define RYLR998_ADDRESS			0x02
+#define RYLR998_ADDRESS			0x01
 
 #define AT_PRIFEX_SIZE			0x03
 #define AT_TERMINATOR_SIZE		0x02
@@ -48,7 +48,7 @@
 #define AT_OVERHEAD_SIZE		(AT_PRIFEX_SIZE + AT_TERMINATOR_SIZE + AT_SET_VALUE_SIZE)
 #define AT_ADDRESS_SIZE			0x02
 
-#define RESPONSE_OFFSET			0x01		//offset by 1 to ignore + character after checking it
+#define RESPONSE_OFFSET			0x02		//offset by 1 to ignore + character after checking it
 #define ADDRESS_OFFSET			0x09		//offset to where the data is located in the address get command response
 
 

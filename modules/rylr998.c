@@ -122,7 +122,6 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	uint8_t 			uartTxBuffer[256] 		= {0};
 	uint16_t			packetSize				= 0;
 	uint8_t				packetSizeAscii[2]		= {0};
-	uloraCommunicationTest	(hRylr998->rylr998Transmitter.TxBuffer);
 
 	UloraCommand_e				Command			= uLoRaCommand;
 	switch (Command)
@@ -156,7 +155,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	strcat((char*) uartTxBuffer, (char*)  packetSizeAscii);
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.TxBuffer);
-	memcpy(uartTxBuffer + 17, TERMINATOR, 2);
+	memcpy(uartTxBuffer + 16, TERMINATOR, 2);
 //	strcat((char*) uartTxBuffer, TERMINATOR);
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
@@ -170,7 +169,6 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 	Rylr998RxCommand_e  command;
 	uint8_t 			uartRxBuffer[250] 		= {0};
 
-//	if(hRylr998->rylr998Receiver.rxBuffer[0] == RX_PACKET_START)
 	if(!memcmp(hRylr998->rylr998Receiver.rxBuffer, RX_PACKET_START, 1))
 	{
 		command = rylr998ResponseFind	(hRylr998->rylr998Receiver.rxBuffer + RESPONSE_OFFSET);
@@ -181,7 +179,7 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				break;
 			case Rylr998R_ADDRESS:
 				rylr998Ascii2Int(&hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET]);
-				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] == 0x01)
+				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] != RYLR998_ADDRESS)
 				{
 					hRylr998->rylr998Receiver.address[0] = RYLR998_ADDRESS;
 					rylr998Int2Ascii(hRylr998->rylr998Receiver.address);

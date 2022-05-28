@@ -4,10 +4,10 @@ rylr998.c:45:18:rylr998SetNetworkId	40	static
 rylr998.c:68:18:rylr998SetOutputPower	40	static
 rylr998.c:97:18:rylr998GetAddress	32	static
 rylr998.c:118:18:rylr998Send	288	static
-rylr998.c:167:18:rylr998ReceivePacketParser	272	static
-rylr998.c:202:18:rylr998GetSent	40	static
-rylr998.c:222:18:rylr998Get	48	static
-rylr998.c:304:20:rylr998ResponseFind	24	static
-rylr998.c:322:6:rylr998Int2Ascii	16	static
-rylr998.c:327:6:rylr998Ascii2Int	16	static
-rylr998.c:332:6:rylr998_enable	8	static
+rylr998.c:166:18:rylr998ReceivePacketParser	272	static
+rylr998.c:200:18:rylr998GetSent	40	static
+rylr998.c:220:18:rylr998Get	48	static
+rylr998.c:302:20:rylr998ResponseFind	24	static
+rylr998.c:320:6:rylr998Int2Ascii	16	static
+rylr998.c:325:6:rylr998Ascii2Int	16	static
+rylr998.c:330:6:rylr998_enable	8	static
