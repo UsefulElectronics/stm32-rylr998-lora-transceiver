@@ -1,4 +1,4 @@
-[![Build Status](https://img.shields.io/badge/USEFUL%20ELECTRONICS-YOUTUBE-red)](https://youtu.be/SqHOaU0ZsxA)
+[![Build Status](https://img.shields.io/badge/USEFUL%20ELECTRONICS-YOUTUBE-red)](https://www.youtube.com/user/wardzx1)
 # LoRa Based Project Using STM32 
 ***
 ***
