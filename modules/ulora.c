@@ -8,6 +8,8 @@
 
 #include "ulora.h"
 
+ULoraHandler_t hUloraProtocol;
+
 Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 {
 	ULoraHandler_t uloraHandler;
@@ -34,3 +36,16 @@ uint8_t uloraPacketChecksum(uint8_t* buffer, uint8_t packetSize)
 	}
 	return checksum;
 }
+uint8_t uloraPacketStore(uint8_t* buffer, UloraCommand_e packeId)
+{
+	switch (packeId)
+	{
+		case ULORA_CONN_COUNT:
+			hUloraProtocol.uloraDevicesCount = buffer[3];
+			break;
+		default:
+			break;
+	}
+}
+
+

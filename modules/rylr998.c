@@ -6,7 +6,10 @@
  */
 #include <rylr998.h>
 
+
 Rylr998Handler_t   hLoRaModule;
+
+Rylr998_Status_t checksumValidate(uint8_t* rxBuffer);
 
 
 Rylr998_Status_t rylr998Test(void)
@@ -165,13 +168,15 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 
 Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 {
-	Rylr998_Status_t 	ret 					= Rylr998_ERROR;
-	Rylr998RxCommand_e  command;
-	uint8_t 			uartRxBuffer[250] 		= {0};
+	Rylr998_Status_t 	ret 						= Rylr998_ERROR;
+	Rylr998RxCommand_e  command						= Rylr998R_NOT_FOUND;
+	uint8_t 			tempUartRxBuffer[250] 		= {0};
+    //Real size should be used instead
+	memcpy(tempUartRxBuffer, hRylr998->rylr998Receiver.rxBuffer, 30);
 
-	if(!memcmp(hRylr998->rylr998Receiver.rxBuffer, RX_PACKET_START, 1))
+	if(!memcmp(tempUartRxBuffer, RX_PACKET_START, 1))
 	{
-		command = rylr998ResponseFind	(hRylr998->rylr998Receiver.rxBuffer + RESPONSE_OFFSET);
+		command = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
 		switch (command)
 		{
 			case Rylr998R_OK:
@@ -188,6 +193,12 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				break;
 			case Rylr998R_RCV:
 
+				break;
+			case Rylr998R_RDY:
+				if(checksumValidate(tempUartRxBuffer))
+				{
+					uloraPacketStore(tempUartRxBuffer, tempUartRxBuffer[3]);	//The second parameter is wrong and must be fixed
+				}
 				break;
 			default:
 				break;
@@ -313,6 +324,26 @@ Rylr998RxCommand_e rylr998ResponseFind(uint8_t* rxBuffer)
 	else if(!memcmp(rxBuffer, OK, 2))
 	{
 		return ret = Rylr998R_OK;
+	}
+	else if(!memcmp(rxBuffer, READY, 5))
+	{
+		return ret = Rylr998R_RDY;
+	}
+	return ret;
+}
+
+Rylr998_Status_t checksumValidate(uint8_t* rxBuffer)
+{
+	Rylr998_Status_t ret = DISABLE;
+	uint8_t checksum = 0;
+	uint8_t packetSize = rxBuffer[1] - 1 - '0';
+	for(uint8_t i = 0; i < packetSize; ++i)
+	{
+		checksum += rxBuffer[i] - '0';
+	}
+	if(checksum == rxBuffer[3] - '0')
+	{
+		ret = ENABLE;
 	}
 	return ret;
 }

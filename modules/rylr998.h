@@ -33,6 +33,7 @@
 #define UID						"UID"		//To inquire module ID. 12BYTES
 #define VER						"VER"
 #define OK						"OK"
+#define READY					"READY"
 
 #define TERMINATOR				"\r\n"
 #define CHECK					"?"
@@ -48,7 +49,7 @@
 #define AT_OVERHEAD_SIZE		(AT_PRIFEX_SIZE + AT_TERMINATOR_SIZE + AT_SET_VALUE_SIZE)
 #define AT_ADDRESS_SIZE			0x02
 
-#define RESPONSE_OFFSET			0x02		//offset by 1 to ignore + character after checking it
+#define RESPONSE_OFFSET			0x01		//offset by 1 to ignore + character after checking it
 #define ADDRESS_OFFSET			0x09		//offset to where the data is located in the address get command response
 
 
@@ -107,6 +108,7 @@ typedef enum
 	Rylr998R_OK = 0x00U,
 	Rylr998R_ADDRESS,
 	Rylr998R_RCV,
+	Rylr998R_RDY,
 	Rylr998R_NOT_FOUND
 
 } Rylr998RxCommand_e;
@@ -210,7 +212,7 @@ typedef enum
 typedef struct
 {
 	bool 					rylr998Reset;
-	uint8_t					rylr998Timer;
+	uint32_t					rylr998Timer;
 	Flag8_t					rylr998Flag;
 
 	uint32_t				rylr998Band;
@@ -225,7 +227,6 @@ typedef struct
 }Rylr998Handler_t;
 
 //Global variables
-extern UART_HandleTypeDef hUart;
 extern Rylr998Handler_t   hLoRaModule;
 
 
@@ -246,5 +247,6 @@ Rylr998_Status_t 	rylr998GetParameter			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
 
 Rylr998RxCommand_e rylr998ResponseFind			(uint8_t* rxBuffer);
+
 
 #endif /* RYLR998_H_ */

@@ -5,45 +5,45 @@ Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
   0 .isr_vector   00000198  08000000  08000000  00010000  2**0
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  1 .text         00003038  08000198  08000198  00010198  2**2
+  1 .text         00003124  08000198  08000198  00010198  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       0000007c  080031d0  080031d0  000131d0  2**2
+  2 .rodata       00000084  080032bc  080032bc  000132bc  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0800324c  0800324c  0002000c  2**0
+  3 .ARM.extab    00000000  08003340  08003340  0002000c  2**0
                   CONTENTS
-  4 .ARM          00000008  0800324c  0800324c  0001324c  2**2
+  4 .ARM          00000008  08003340  08003340  00013340  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08003254  08003254  0002000c  2**0
+  5 .preinit_array 00000000  08003348  08003348  0002000c  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08003254  08003254  00013254  2**2
+  6 .init_array   00000004  08003348  08003348  00013348  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  7 .fini_array   00000004  08003258  08003258  00013258  2**2
+  7 .fini_array   00000004  0800334c  0800334c  0001334c  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         0000000c  20000000  0800325c  00020000  2**2
+  8 .data         0000000c  20000000  08003350  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000260  2000000c  08003268  0002000c  2**2
+  9 .bss          0000026c  2000000c  0800335c  0002000c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  2000026c  08003268  0002026c  2**0
+ 10 ._user_heap_stack 00000600  20000278  0800335c  00020278  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0000ab0a  00000000  00000000  0002003c  2**0
+ 12 .debug_info   0000acd1  00000000  00000000  0002003c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 00001994  00000000  00000000  0002ab46  2**0
+ 13 .debug_abbrev 000019e6  00000000  00000000  0002ad0d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 00000728  00000000  00000000  0002c4e0  2**3
+ 14 .debug_aranges 00000738  00000000  00000000  0002c6f8  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00000660  00000000  00000000  0002cc08  2**3
+ 15 .debug_ranges 00000670  00000000  00000000  0002ce30  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  0001602f  00000000  00000000  0002d268  2**0
+ 16 .debug_macro  00016035  00000000  00000000  0002d4a0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   00006f7a  00000000  00000000  00043297  2**0
+ 17 .debug_line   00006fb7  00000000  00000000  000434d5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00085b0c  00000000  00000000  0004a211  2**0
+ 18 .debug_str    00085b5e  00000000  00000000  0004a48c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  000cfd1d  2**0
+ 19 .comment      0000007b  00000000  00000000  000cffea  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00001c48  00000000  00000000  000cfd98  2**2
+ 20 .debug_frame  00001c98  00000000  00000000  000d0068  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -62,7 +62,7 @@ Disassembly of section .text:
  80001ae:	bd10      	pop	{r4, pc}
  80001b0:	2000000c 	.word	0x2000000c
  80001b4:	00000000 	.word	0x00000000
- 80001b8:	080031b8 	.word	0x080031b8
+ 80001b8:	080032a4 	.word	0x080032a4
 
 080001bc <frame_dummy>:
  80001bc:	b508      	push	{r3, lr}
@@ -74,7 +74,7 @@ Disassembly of section .text:
  80001ca:	bd08      	pop	{r3, pc}
  80001cc:	00000000 	.word	0x00000000
  80001d0:	20000010 	.word	0x20000010
- 80001d4:	080031b8 	.word	0x080031b8
+ 80001d4:	080032a4 	.word	0x080032a4
 
 080001d8 <strlen>:
  80001d8:	4603      	mov	r3, r0
@@ -396,38 +396,38 @@ int main(void)
  80004f8:	f000 f8c4 	bl	8000684 <MX_USART1_UART_Init>
   /* USER CODE BEGIN 2 */
   rylr998_enable();
- 80004fc:	f002 fdd6 	bl	80030ac <rylr998_enable>
+ 80004fc:	f002 fe34 	bl	8003168 <rylr998_enable>
   HAL_Delay(100);
  8000500:	2064      	movs	r0, #100	; 0x64
  8000502:	f000 fafd 	bl	8000b00 <HAL_Delay>
   rylr998Get(&hLoRaModule, Rylr998_ADDRESS);
  8000506:	2103      	movs	r1, #3
  8000508:	4828      	ldr	r0, [pc, #160]	; (80005ac <main+0xc4>)
- 800050a:	f002 fc35 	bl	8002d78 <rylr998Get>
+ 800050a:	f002 fc55 	bl	8002db8 <rylr998Get>
 //  rylr998GetAddress(&hLoRaModule);
   hLoRaModule.rylr998NetworkId = 6;
  800050e:	4b27      	ldr	r3, [pc, #156]	; (80005ac <main+0xc4>)
  8000510:	2206      	movs	r2, #6
- 8000512:	f883 21f9 	strb.w	r2, [r3, #505]	; 0x1f9
+ 8000512:	f883 2201 	strb.w	r2, [r3, #513]	; 0x201
   hLoRaModule.Rylr998RfPower   = 10;
  8000516:	4b25      	ldr	r3, [pc, #148]	; (80005ac <main+0xc4>)
  8000518:	220a      	movs	r2, #10
- 800051a:	f883 21fe 	strb.w	r2, [r3, #510]	; 0x1fe
+ 800051a:	f883 2206 	strb.w	r2, [r3, #518]	; 0x206
   hLoRaModule.rylr998Transmitter.address[0] = '1';
  800051e:	4b23      	ldr	r3, [pc, #140]	; (80005ac <main+0xc4>)
  8000520:	2231      	movs	r2, #49	; 0x31
- 8000522:	741a      	strb	r2, [r3, #16]
+ 8000522:	761a      	strb	r2, [r3, #24]
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
  8000524:	f000 fae0 	bl	8000ae8 <HAL_GetTick>
  8000528:	4602      	mov	r2, r0
  800052a:	4b20      	ldr	r3, [pc, #128]	; (80005ac <main+0xc4>)
- 800052c:	60da      	str	r2, [r3, #12]
+ 800052c:	615a      	str	r2, [r3, #20]
   HAL_Delay(20);
  800052e:	2014      	movs	r0, #20
  8000530:	f000 fae6 	bl	8000b00 <HAL_Delay>
   rylr998SetNetworkId			(hLoRaModule.rylr998NetworkId);
  8000534:	4b1d      	ldr	r3, [pc, #116]	; (80005ac <main+0xc4>)
- 8000536:	f893 31f9 	ldrb.w	r3, [r3, #505]	; 0x1f9
+ 8000536:	f893 3201 	ldrb.w	r3, [r3, #513]	; 0x201
  800053a:	4618      	mov	r0, r3
  800053c:	f002 f9e4 	bl	8002908 <rylr998SetNetworkId>
   HAL_Delay(30);
@@ -435,7 +435,7 @@ int main(void)
  8000542:	f000 fadd 	bl	8000b00 <HAL_Delay>
   rylr998SetOutputPower			(hLoRaModule.Rylr998RfPower);
  8000546:	4b19      	ldr	r3, [pc, #100]	; (80005ac <main+0xc4>)
- 8000548:	f893 31fe 	ldrb.w	r3, [r3, #510]	; 0x1fe
+ 8000548:	f893 3206 	ldrb.w	r3, [r3, #518]	; 0x206
  800054c:	4618      	mov	r0, r3
  800054e:	f002 fa53 	bl	80029f8 <rylr998SetOutputPower>
   HAL_Delay(20);
@@ -448,7 +448,7 @@ int main(void)
 
 	  if(RYLR998_ReadInterruptFlag())
  8000558:	4b14      	ldr	r3, [pc, #80]	; (80005ac <main+0xc4>)
- 800055a:	789b      	ldrb	r3, [r3, #2]
+ 800055a:	7a1b      	ldrb	r3, [r3, #8]
  800055c:	f003 0301 	and.w	r3, r3, #1
  8000560:	b2db      	uxtb	r3, r3
  8000562:	2b00      	cmp	r3, #0
@@ -456,9 +456,9 @@ int main(void)
 	  {
 		  RYLR998_WirteInterruptFlag(DISABLE);
  8000566:	4a11      	ldr	r2, [pc, #68]	; (80005ac <main+0xc4>)
- 8000568:	7893      	ldrb	r3, [r2, #2]
+ 8000568:	7a13      	ldrb	r3, [r2, #8]
  800056a:	f36f 0300 	bfc	r3, #0, #1
- 800056e:	7093      	strb	r3, [r2, #2]
+ 800056e:	7213      	strb	r3, [r2, #8]
 
 		  rylr998ReceivePacketParser(&hLoRaModule);
  8000570:	480e      	ldr	r0, [pc, #56]	; (80005ac <main+0xc4>)
@@ -476,7 +476,7 @@ int main(void)
  8000584:	f000 fab0 	bl	8000ae8 <HAL_GetTick>
  8000588:	4602      	mov	r2, r0
  800058a:	4b08      	ldr	r3, [pc, #32]	; (80005ac <main+0xc4>)
- 800058c:	68db      	ldr	r3, [r3, #12]
+ 800058c:	695b      	ldr	r3, [r3, #20]
  800058e:	1ad3      	subs	r3, r2, r3
  8000590:	f5b3 7f7a 	cmp.w	r3, #1000	; 0x3e8
  8000594:	d3e0      	bcc.n	8000558 <main+0x70>
@@ -485,7 +485,7 @@ int main(void)
  8000596:	f000 faa7 	bl	8000ae8 <HAL_GetTick>
  800059a:	4602      	mov	r2, r0
  800059c:	4b03      	ldr	r3, [pc, #12]	; (80005ac <main+0xc4>)
- 800059e:	60da      	str	r2, [r3, #12]
+ 800059e:	615a      	str	r2, [r3, #20]
 
 			  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
  80005a0:	2102      	movs	r1, #2
@@ -512,7 +512,7 @@ void SystemClock_Config(void)
  80005be:	2230      	movs	r2, #48	; 0x30
  80005c0:	2100      	movs	r1, #0
  80005c2:	4618      	mov	r0, r3
- 80005c4:	f002 fde0 	bl	8003188 <memset>
+ 80005c4:	f002 fe56 	bl	8003274 <memset>
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
  80005c8:	f107 030c 	add.w	r3, r7, #12
  80005cc:	2200      	movs	r2, #0
@@ -869,9 +869,9 @@ static void MX_GPIO_Init(void)
   /* Prevent unused argument(s) compilation warning */
 	 RYLR998_WirteInterruptFlag(ENABLE);
  8000800:	4a05      	ldr	r2, [pc, #20]	; (8000818 <HAL_UART_RxCpltCallback+0x20>)
- 8000802:	7893      	ldrb	r3, [r2, #2]
+ 8000802:	7a13      	ldrb	r3, [r2, #8]
  8000804:	f043 0301 	orr.w	r3, r3, #1
- 8000808:	7093      	strb	r3, [r2, #2]
+ 8000808:	7213      	strb	r3, [r2, #8]
   UNUSED(huart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxCpltCallback could be implemented in the user file
@@ -1376,7 +1376,7 @@ LoopFillZerobss:
  80009f2:	f7ff ffd3 	bl	800099c <SystemInit>
 /* Call static constructors */
     bl __libc_init_array
- 80009f6:	f002 fb89 	bl	800310c <__libc_init_array>
+ 80009f6:	f002 fbff 	bl	80031f8 <__libc_init_array>
 /* Call the application's entry point.*/
   bl  main
  80009fa:	f7ff fd75 	bl	80004e8 <main>
@@ -1385,7 +1385,7 @@ LoopFillZerobss:
   ldr   sp, =_estack    		 /* set stack pointer */
  8000a00:	20020000 	.word	0x20020000
   ldr  r3, =_sidata
- 8000a04:	0800325c 	.word	0x0800325c
+ 8000a04:	08003350 	.word	0x08003350
   ldr  r0, =_sdata
  8000a08:	20000000 	.word	0x20000000
   ldr  r3, =_edata
@@ -1393,7 +1393,7 @@ LoopFillZerobss:
   ldr  r2, =_sbss
  8000a10:	2000000c 	.word	0x2000000c
   ldr  r3, = _ebss
- 8000a14:	2000026c 	.word	0x2000026c
+ 8000a14:	20000278 	.word	0x20000278
 
 08000a18 <ADC_IRQHandler>:
  * @retval None       
@@ -3915,7 +3915,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  80017f2:	bf00      	nop
  80017f4:	40023c00 	.word	0x40023c00
  80017f8:	40023800 	.word	0x40023800
- 80017fc:	08003234 	.word	0x08003234
+ 80017fc:	08003328 	.word	0x08003328
  8001800:	20000000 	.word	0x20000000
  8001804:	20000004 	.word	0x20000004
 
@@ -4152,7 +4152,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  80019a0:	4618      	mov	r0, r3
  80019a2:	bd80      	pop	{r7, pc}
  80019a4:	40023800 	.word	0x40023800
- 80019a8:	08003244 	.word	0x08003244
+ 80019a8:	08003338 	.word	0x08003338
 
 080019ac <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -4178,7 +4178,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  80019c8:	4618      	mov	r0, r3
  80019ca:	bd80      	pop	{r7, pc}
  80019cc:	40023800 	.word	0x40023800
- 80019d0:	08003244 	.word	0x08003244
+ 80019d0:	08003338 	.word	0x08003338
 
 080019d4 <HAL_UART_Init>:
   * @param  huart  Pointer to a UART_HandleTypeDef structure that contains
@@ -6304,7 +6304,7 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
  8002866:	2203      	movs	r2, #3
  8002868:	4922      	ldr	r1, [pc, #136]	; (80028f4 <rylr998SetAddress+0xb0>)
  800286a:	4618      	mov	r0, r3
- 800286c:	f000 fc81 	bl	8003172 <memcpy>
+ 800286c:	f000 fcf7 	bl	800325e <memcpy>
 	strcat(uartTxBuffer, ADDRESS);
  8002870:	f107 030c 	add.w	r3, r7, #12
  8002874:	4618      	mov	r0, r3
@@ -6337,7 +6337,7 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
  80028ae:	f107 030c 	add.w	r3, r7, #12
  80028b2:	6879      	ldr	r1, [r7, #4]
  80028b4:	4618      	mov	r0, r3
- 80028b6:	f000 fc6f 	bl	8003198 <strcat>
+ 80028b6:	f000 fce5 	bl	8003284 <strcat>
 	strcat((char*) uartTxBuffer, TERMINATOR);
  80028ba:	f107 030c 	add.w	r3, r7, #12
  80028be:	4618      	mov	r0, r3
@@ -6368,10 +6368,10 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
  80028ee:	3720      	adds	r7, #32
  80028f0:	46bd      	mov	sp, r7
  80028f2:	bd80      	pop	{r7, pc}
- 80028f4:	080031d0 	.word	0x080031d0
- 80028f8:	080031d8 	.word	0x080031d8
- 80028fc:	080031e0 	.word	0x080031e0
- 8002900:	080031d4 	.word	0x080031d4
+ 80028f4:	080032bc 	.word	0x080032bc
+ 80028f8:	080032c4 	.word	0x080032c4
+ 80028fc:	080032cc 	.word	0x080032cc
+ 8002900:	080032c0 	.word	0x080032c0
  8002904:	20000028 	.word	0x20000028
 
 08002908 <rylr998SetNetworkId>:
@@ -6422,7 +6422,7 @@ Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
  800294a:	2203      	movs	r2, #3
  800294c:	4925      	ldr	r1, [pc, #148]	; (80029e4 <rylr998SetNetworkId+0xdc>)
  800294e:	4618      	mov	r0, r3
- 8002950:	f000 fc0f 	bl	8003172 <memcpy>
+ 8002950:	f000 fc85 	bl	800325e <memcpy>
 		strcat(uartTxBuffer, NETWORKID);
  8002954:	f107 030c 	add.w	r3, r7, #12
  8002958:	4618      	mov	r0, r3
@@ -6458,7 +6458,7 @@ Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
  800299a:	f107 030c 	add.w	r3, r7, #12
  800299e:	4611      	mov	r1, r2
  80029a0:	4618      	mov	r0, r3
- 80029a2:	f000 fbf9 	bl	8003198 <strcat>
+ 80029a2:	f000 fc6f 	bl	8003284 <strcat>
 		strcat((char*) uartTxBuffer, TERMINATOR);
  80029a6:	f107 030c 	add.w	r3, r7, #12
  80029aa:	4618      	mov	r0, r3
@@ -6491,10 +6491,10 @@ Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
  80029de:	3720      	adds	r7, #32
  80029e0:	46bd      	mov	sp, r7
  80029e2:	bd80      	pop	{r7, pc}
- 80029e4:	080031d0 	.word	0x080031d0
- 80029e8:	080031e4 	.word	0x080031e4
- 80029ec:	080031e0 	.word	0x080031e0
- 80029f0:	080031d4 	.word	0x080031d4
+ 80029e4:	080032bc 	.word	0x080032bc
+ 80029e8:	080032d0 	.word	0x080032d0
+ 80029ec:	080032cc 	.word	0x080032cc
+ 80029f0:	080032c0 	.word	0x080032c0
  80029f4:	20000028 	.word	0x20000028
 
 080029f8 <rylr998SetOutputPower>:
@@ -6579,7 +6579,7 @@ Rylr998_Status_t rylr998SetOutputPower(Crfop0_22_t outpuPower)
  8002a7a:	2203      	movs	r2, #3
  8002a7c:	4925      	ldr	r1, [pc, #148]	; (8002b14 <rylr998SetOutputPower+0x11c>)
  8002a7e:	4618      	mov	r0, r3
- 8002a80:	f000 fb77 	bl	8003172 <memcpy>
+ 8002a80:	f000 fbed 	bl	800325e <memcpy>
 		strcat(uartTxBuffer, CRFOP);
  8002a84:	f107 030c 	add.w	r3, r7, #12
  8002a88:	4618      	mov	r0, r3
@@ -6612,7 +6612,7 @@ Rylr998_Status_t rylr998SetOutputPower(Crfop0_22_t outpuPower)
  8002ac4:	f107 030c 	add.w	r3, r7, #12
  8002ac8:	4611      	mov	r1, r2
  8002aca:	4618      	mov	r0, r3
- 8002acc:	f000 fb64 	bl	8003198 <strcat>
+ 8002acc:	f000 fbda 	bl	8003284 <strcat>
 		strcat((char*) uartTxBuffer, TERMINATOR);
  8002ad0:	f107 030c 	add.w	r3, r7, #12
  8002ad4:	4618      	mov	r0, r3
@@ -6647,10 +6647,10 @@ Rylr998_Status_t rylr998SetOutputPower(Crfop0_22_t outpuPower)
  8002b0c:	bd80      	pop	{r7, pc}
  8002b0e:	bf00      	nop
  8002b10:	cccccccd 	.word	0xcccccccd
- 8002b14:	080031d0 	.word	0x080031d0
- 8002b18:	080031f0 	.word	0x080031f0
- 8002b1c:	080031e0 	.word	0x080031e0
- 8002b20:	080031d4 	.word	0x080031d4
+ 8002b14:	080032bc 	.word	0x080032bc
+ 8002b18:	080032dc 	.word	0x080032dc
+ 8002b1c:	080032cc 	.word	0x080032cc
+ 8002b20:	080032c0 	.word	0x080032c0
  8002b24:	20000028 	.word	0x20000028
 
 08002b28 <rylr998Send>:
@@ -6677,7 +6677,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
  8002b44:	f44f 7380 	mov.w	r3, #256	; 0x100
  8002b48:	461a      	mov	r2, r3
  8002b4a:	2100      	movs	r1, #0
- 8002b4c:	f000 fb1c 	bl	8003188 <memset>
+ 8002b4c:	f000 fb92 	bl	8003274 <memset>
 	uint16_t			packetSize				= 0;
  8002b50:	2300      	movs	r3, #0
  8002b52:	f8a7 3114 	strh.w	r3, [r7, #276]	; 0x114
@@ -6709,9 +6709,9 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 			uloraCommunicationTest	(hRylr998->rylr998Transmitter.TxBuffer);
  8002b76:	1d3b      	adds	r3, r7, #4
  8002b78:	681b      	ldr	r3, [r3, #0]
- 8002b7a:	3314      	adds	r3, #20
+ 8002b7a:	331c      	adds	r3, #28
  8002b7c:	4618      	mov	r0, r3
- 8002b7e:	f000 faa1 	bl	80030c4 <uloraCommunicationTest>
+ 8002b7e:	f000 faff 	bl	8003180 <uloraCommunicationTest>
 			break;
  8002b82:	e000      	b.n	8002b86 <rylr998Send+0x5e>
 			break;
@@ -6728,7 +6728,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
  8002b94:	2203      	movs	r2, #3
  8002b96:	4943      	ldr	r1, [pc, #268]	; (8002ca4 <rylr998Send+0x17c>)
  8002b98:	4618      	mov	r0, r3
- 8002b9a:	f000 faea 	bl	8003172 <memcpy>
+ 8002b9a:	f000 fb60 	bl	800325e <memcpy>
 	strcat((char*) uartTxBuffer, SEND);
  8002b9e:	f107 0310 	add.w	r3, r7, #16
  8002ba2:	4618      	mov	r0, r3
@@ -6759,11 +6759,11 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.address);
  8002bda:	1d3b      	adds	r3, r7, #4
  8002bdc:	681b      	ldr	r3, [r3, #0]
- 8002bde:	f103 0210 	add.w	r2, r3, #16
+ 8002bde:	f103 0218 	add.w	r2, r3, #24
  8002be2:	f107 0310 	add.w	r3, r7, #16
  8002be6:	4611      	mov	r1, r2
  8002be8:	4618      	mov	r0, r3
- 8002bea:	f000 fad5 	bl	8003198 <strcat>
+ 8002bea:	f000 fb4b 	bl	8003284 <strcat>
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
  8002bee:	f107 0310 	add.w	r3, r7, #16
  8002bf2:	4618      	mov	r0, r3
@@ -6781,7 +6781,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
  8002c0c:	1d3b      	adds	r3, r7, #4
  8002c0e:	681b      	ldr	r3, [r3, #0]
- 8002c10:	7d5b      	ldrb	r3, [r3, #21]
+ 8002c10:	7f5b      	ldrb	r3, [r3, #29]
  8002c12:	b29a      	uxth	r2, r3
  8002c14:	f8b7 3114 	ldrh.w	r3, [r7, #276]	; 0x114
  8002c18:	4413      	add	r3, r2
@@ -6792,7 +6792,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
  8002c22:	1d3b      	adds	r3, r7, #4
  8002c24:	681b      	ldr	r3, [r3, #0]
- 8002c26:	7d5a      	ldrb	r2, [r3, #21]
+ 8002c26:	7f5a      	ldrb	r2, [r3, #29]
  8002c28:	f107 030c 	add.w	r3, r7, #12
  8002c2c:	701a      	strb	r2, [r3, #0]
 //	rylr998Int2Ascii(packetSizeAscii);
@@ -6803,7 +6803,7 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
  8002c32:	f107 0310 	add.w	r3, r7, #16
  8002c36:	4611      	mov	r1, r2
  8002c38:	4618      	mov	r0, r3
- 8002c3a:	f000 faad 	bl	8003198 <strcat>
+ 8002c3a:	f000 fb23 	bl	8003284 <strcat>
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
  8002c3e:	f107 0310 	add.w	r3, r7, #16
  8002c42:	4618      	mov	r0, r3
@@ -6820,18 +6820,18 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.TxBuffer);
  8002c5c:	1d3b      	adds	r3, r7, #4
  8002c5e:	681b      	ldr	r3, [r3, #0]
- 8002c60:	f103 0214 	add.w	r2, r3, #20
+ 8002c60:	f103 021c 	add.w	r2, r3, #28
  8002c64:	f107 0310 	add.w	r3, r7, #16
  8002c68:	4611      	mov	r1, r2
  8002c6a:	4618      	mov	r0, r3
- 8002c6c:	f000 fa94 	bl	8003198 <strcat>
+ 8002c6c:	f000 fb0a 	bl	8003284 <strcat>
 	memcpy(uartTxBuffer + 16, TERMINATOR, 2);
  8002c70:	f107 0310 	add.w	r3, r7, #16
  8002c74:	3310      	adds	r3, #16
  8002c76:	2202      	movs	r2, #2
  8002c78:	490e      	ldr	r1, [pc, #56]	; (8002cb4 <rylr998Send+0x18c>)
  8002c7a:	4618      	mov	r0, r3
- 8002c7c:	f000 fa79 	bl	8003172 <memcpy>
+ 8002c7c:	f000 faef 	bl	800325e <memcpy>
 //	strcat((char*) uartTxBuffer, TERMINATOR);
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
@@ -6850,11 +6850,11 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
  8002c9c:	f507 778c 	add.w	r7, r7, #280	; 0x118
  8002ca0:	46bd      	mov	sp, r7
  8002ca2:	bd80      	pop	{r7, pc}
- 8002ca4:	080031d0 	.word	0x080031d0
- 8002ca8:	080031fc 	.word	0x080031fc
- 8002cac:	080031e0 	.word	0x080031e0
- 8002cb0:	08003204 	.word	0x08003204
- 8002cb4:	080031d4 	.word	0x080031d4
+ 8002ca4:	080032bc 	.word	0x080032bc
+ 8002ca8:	080032e8 	.word	0x080032e8
+ 8002cac:	080032cc 	.word	0x080032cc
+ 8002cb0:	080032f0 	.word	0x080032f0
+ 8002cb4:	080032c0 	.word	0x080032c0
  8002cb8:	20000028 	.word	0x20000028
 
 08002cbc <rylr998ReceivePacketParser>:
@@ -6866,714 +6866,870 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
  8002cc0:	af00      	add	r7, sp, #0
  8002cc2:	1d3b      	adds	r3, r7, #4
  8002cc4:	6018      	str	r0, [r3, #0]
-	Rylr998_Status_t 	ret 					= Rylr998_ERROR;
+	Rylr998_Status_t 	ret 						= Rylr998_ERROR;
  8002cc6:	2301      	movs	r3, #1
  8002cc8:	f887 3107 	strb.w	r3, [r7, #263]	; 0x107
-	Rylr998RxCommand_e  command;
-	uint8_t 			uartRxBuffer[250] 		= {0};
- 8002ccc:	f107 030c 	add.w	r3, r7, #12
- 8002cd0:	22fa      	movs	r2, #250	; 0xfa
- 8002cd2:	2100      	movs	r1, #0
- 8002cd4:	4618      	mov	r0, r3
- 8002cd6:	f000 fa57 	bl	8003188 <memset>
+	Rylr998RxCommand_e  command						= Rylr998R_NOT_FOUND;
+ 8002ccc:	2304      	movs	r3, #4
+ 8002cce:	f887 3106 	strb.w	r3, [r7, #262]	; 0x106
+	uint8_t 			tempUartRxBuffer[250] 		= {0};
+ 8002cd2:	f107 030c 	add.w	r3, r7, #12
+ 8002cd6:	22fa      	movs	r2, #250	; 0xfa
+ 8002cd8:	2100      	movs	r1, #0
+ 8002cda:	4618      	mov	r0, r3
+ 8002cdc:	f000 faca 	bl	8003274 <memset>
+    //Real size should be used instead
+	memcpy(tempUartRxBuffer, hRylr998->rylr998Receiver.rxBuffer, 30);
+ 8002ce0:	1d3b      	adds	r3, r7, #4
+ 8002ce2:	681b      	ldr	r3, [r3, #0]
+ 8002ce4:	f203 110f 	addw	r1, r3, #271	; 0x10f
+ 8002ce8:	f107 030c 	add.w	r3, r7, #12
+ 8002cec:	221e      	movs	r2, #30
+ 8002cee:	4618      	mov	r0, r3
+ 8002cf0:	f000 fab5 	bl	800325e <memcpy>
 
-	if(!memcmp(hRylr998->rylr998Receiver.rxBuffer, RX_PACKET_START, 1))
- 8002cda:	1d3b      	adds	r3, r7, #4
- 8002cdc:	681b      	ldr	r3, [r3, #0]
- 8002cde:	f203 1307 	addw	r3, r3, #263	; 0x107
- 8002ce2:	781a      	ldrb	r2, [r3, #0]
- 8002ce4:	4b23      	ldr	r3, [pc, #140]	; (8002d74 <rylr998ReceivePacketParser+0xb8>)
- 8002ce6:	781b      	ldrb	r3, [r3, #0]
- 8002ce8:	429a      	cmp	r2, r3
- 8002cea:	d134      	bne.n	8002d56 <rylr998ReceivePacketParser+0x9a>
+	if(!memcmp(tempUartRxBuffer, RX_PACKET_START, 1))
+ 8002cf4:	f107 030c 	add.w	r3, r7, #12
+ 8002cf8:	781a      	ldrb	r2, [r3, #0]
+ 8002cfa:	4b2e      	ldr	r3, [pc, #184]	; (8002db4 <rylr998ReceivePacketParser+0xf8>)
+ 8002cfc:	781b      	ldrb	r3, [r3, #0]
+ 8002cfe:	429a      	cmp	r2, r3
+ 8002d00:	d149      	bne.n	8002d96 <rylr998ReceivePacketParser+0xda>
 	{
-		command = rylr998ResponseFind	(hRylr998->rylr998Receiver.rxBuffer + RESPONSE_OFFSET);
- 8002cec:	1d3b      	adds	r3, r7, #4
- 8002cee:	681b      	ldr	r3, [r3, #0]
- 8002cf0:	f203 1307 	addw	r3, r3, #263	; 0x107
- 8002cf4:	3302      	adds	r3, #2
- 8002cf6:	4618      	mov	r0, r3
- 8002cf8:	f000 f982 	bl	8003000 <rylr998ResponseFind>
- 8002cfc:	4603      	mov	r3, r0
- 8002cfe:	f887 3106 	strb.w	r3, [r7, #262]	; 0x106
+		command = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
+ 8002d02:	f107 030c 	add.w	r3, r7, #12
+ 8002d06:	3301      	adds	r3, #1
+ 8002d08:	4618      	mov	r0, r3
+ 8002d0a:	f000 f999 	bl	8003040 <rylr998ResponseFind>
+ 8002d0e:	4603      	mov	r3, r0
+ 8002d10:	f887 3106 	strb.w	r3, [r7, #262]	; 0x106
 		switch (command)
- 8002d02:	f897 3106 	ldrb.w	r3, [r7, #262]	; 0x106
- 8002d06:	2b01      	cmp	r3, #1
- 8002d08:	d004      	beq.n	8002d14 <rylr998ReceivePacketParser+0x58>
- 8002d0a:	2b02      	cmp	r3, #2
- 8002d0c:	d025      	beq.n	8002d5a <rylr998ReceivePacketParser+0x9e>
- 8002d0e:	2b00      	cmp	r3, #0
- 8002d10:	d025      	beq.n	8002d5e <rylr998ReceivePacketParser+0xa2>
+ 8002d14:	f897 3106 	ldrb.w	r3, [r7, #262]	; 0x106
+ 8002d18:	2b03      	cmp	r3, #3
+ 8002d1a:	d83e      	bhi.n	8002d9a <rylr998ReceivePacketParser+0xde>
+ 8002d1c:	a201      	add	r2, pc, #4	; (adr r2, 8002d24 <rylr998ReceivePacketParser+0x68>)
+ 8002d1e:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8002d22:	bf00      	nop
+ 8002d24:	08002d9b 	.word	0x08002d9b
+ 8002d28:	08002d35 	.word	0x08002d35
+ 8002d2c:	08002d9b 	.word	0x08002d9b
+ 8002d30:	08002d77 	.word	0x08002d77
+		{
+			case Rylr998R_OK:
+
 				break;
+			case Rylr998R_ADDRESS:
+				rylr998Ascii2Int(&hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET]);
+ 8002d34:	1d3b      	adds	r3, r7, #4
+ 8002d36:	681b      	ldr	r3, [r3, #0]
+ 8002d38:	f503 738c 	add.w	r3, r3, #280	; 0x118
+ 8002d3c:	4618      	mov	r0, r3
+ 8002d3e:	f000 fa03 	bl	8003148 <rylr998Ascii2Int>
+				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] != RYLR998_ADDRESS)
+ 8002d42:	1d3b      	adds	r3, r7, #4
+ 8002d44:	681b      	ldr	r3, [r3, #0]
+ 8002d46:	f893 3118 	ldrb.w	r3, [r3, #280]	; 0x118
+ 8002d4a:	2b01      	cmp	r3, #1
+ 8002d4c:	d027      	beq.n	8002d9e <rylr998ReceivePacketParser+0xe2>
+				{
+					hRylr998->rylr998Receiver.address[0] = RYLR998_ADDRESS;
+ 8002d4e:	1d3b      	adds	r3, r7, #4
+ 8002d50:	681b      	ldr	r3, [r3, #0]
+ 8002d52:	2201      	movs	r2, #1
+ 8002d54:	f883 210c 	strb.w	r2, [r3, #268]	; 0x10c
+					rylr998Int2Ascii(hRylr998->rylr998Receiver.address);
+ 8002d58:	1d3b      	adds	r3, r7, #4
+ 8002d5a:	681b      	ldr	r3, [r3, #0]
+ 8002d5c:	f503 7386 	add.w	r3, r3, #268	; 0x10c
+ 8002d60:	4618      	mov	r0, r3
+ 8002d62:	f000 f9e1 	bl	8003128 <rylr998Int2Ascii>
+					rylr998SetAddress(hRylr998->rylr998Receiver.address);
+ 8002d66:	1d3b      	adds	r3, r7, #4
+ 8002d68:	681b      	ldr	r3, [r3, #0]
+ 8002d6a:	f503 7386 	add.w	r3, r3, #268	; 0x10c
+ 8002d6e:	4618      	mov	r0, r3
+ 8002d70:	f7ff fd68 	bl	8002844 <rylr998SetAddress>
+				}
+				break;
+ 8002d74:	e013      	b.n	8002d9e <rylr998ReceivePacketParser+0xe2>
 			case Rylr998R_RCV:
 
 				break;
+			case Rylr998R_RDY:
+				if(checksumValidate(tempUartRxBuffer))
+ 8002d76:	f107 030c 	add.w	r3, r7, #12
+ 8002d7a:	4618      	mov	r0, r3
+ 8002d7c:	f000 f9a4 	bl	80030c8 <checksumValidate>
+ 8002d80:	4603      	mov	r3, r0
+ 8002d82:	2b00      	cmp	r3, #0
+ 8002d84:	d00d      	beq.n	8002da2 <rylr998ReceivePacketParser+0xe6>
+				{
+					uloraPacketStore(tempUartRxBuffer, tempUartRxBuffer[3]);	//The second parameter is wrong and must be fixed
+ 8002d86:	7bfa      	ldrb	r2, [r7, #15]
+ 8002d88:	f107 030c 	add.w	r3, r7, #12
+ 8002d8c:	4611      	mov	r1, r2
+ 8002d8e:	4618      	mov	r0, r3
+ 8002d90:	f000 fa1a 	bl	80031c8 <uloraPacketStore>
+				}
+				break;
+ 8002d94:	e005      	b.n	8002da2 <rylr998ReceivePacketParser+0xe6>
 			default:
 				break;
- 8002d12:	e027      	b.n	8002d64 <rylr998ReceivePacketParser+0xa8>
-				rylr998Ascii2Int(&hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET]);
- 8002d14:	1d3b      	adds	r3, r7, #4
- 8002d16:	681b      	ldr	r3, [r3, #0]
- 8002d18:	f503 7388 	add.w	r3, r3, #272	; 0x110
- 8002d1c:	4618      	mov	r0, r3
- 8002d1e:	f000 f9b5 	bl	800308c <rylr998Ascii2Int>
-				if(hRylr998->rylr998Receiver.rxBuffer[ADDRESS_OFFSET] != RYLR998_ADDRESS)
- 8002d22:	1d3b      	adds	r3, r7, #4
- 8002d24:	681b      	ldr	r3, [r3, #0]
- 8002d26:	f893 3110 	ldrb.w	r3, [r3, #272]	; 0x110
- 8002d2a:	2b01      	cmp	r3, #1
- 8002d2c:	d019      	beq.n	8002d62 <rylr998ReceivePacketParser+0xa6>
-					hRylr998->rylr998Receiver.address[0] = RYLR998_ADDRESS;
- 8002d2e:	1d3b      	adds	r3, r7, #4
- 8002d30:	681b      	ldr	r3, [r3, #0]
- 8002d32:	2201      	movs	r2, #1
- 8002d34:	f883 2104 	strb.w	r2, [r3, #260]	; 0x104
-					rylr998Int2Ascii(hRylr998->rylr998Receiver.address);
- 8002d38:	1d3b      	adds	r3, r7, #4
- 8002d3a:	681b      	ldr	r3, [r3, #0]
- 8002d3c:	f503 7382 	add.w	r3, r3, #260	; 0x104
- 8002d40:	4618      	mov	r0, r3
- 8002d42:	f000 f993 	bl	800306c <rylr998Int2Ascii>
-					rylr998SetAddress(hRylr998->rylr998Receiver.address);
- 8002d46:	1d3b      	adds	r3, r7, #4
- 8002d48:	681b      	ldr	r3, [r3, #0]
- 8002d4a:	f503 7382 	add.w	r3, r3, #260	; 0x104
- 8002d4e:	4618      	mov	r0, r3
- 8002d50:	f7ff fd78 	bl	8002844 <rylr998SetAddress>
-				break;
- 8002d54:	e005      	b.n	8002d62 <rylr998ReceivePacketParser+0xa6>
 		}
 	}
- 8002d56:	bf00      	nop
- 8002d58:	e004      	b.n	8002d64 <rylr998ReceivePacketParser+0xa8>
+ 8002d96:	bf00      	nop
+ 8002d98:	e004      	b.n	8002da4 <rylr998ReceivePacketParser+0xe8>
 				break;
- 8002d5a:	bf00      	nop
- 8002d5c:	e002      	b.n	8002d64 <rylr998ReceivePacketParser+0xa8>
+ 8002d9a:	bf00      	nop
+ 8002d9c:	e002      	b.n	8002da4 <rylr998ReceivePacketParser+0xe8>
 				break;
- 8002d5e:	bf00      	nop
- 8002d60:	e000      	b.n	8002d64 <rylr998ReceivePacketParser+0xa8>
+ 8002d9e:	bf00      	nop
+ 8002da0:	e000      	b.n	8002da4 <rylr998ReceivePacketParser+0xe8>
 				break;
- 8002d62:	bf00      	nop
+ 8002da2:	bf00      	nop
 
 	return ret;
- 8002d64:	f897 3107 	ldrb.w	r3, [r7, #263]	; 0x107
+ 8002da4:	f897 3107 	ldrb.w	r3, [r7, #263]	; 0x107
 }
- 8002d68:	4618      	mov	r0, r3
- 8002d6a:	f507 7784 	add.w	r7, r7, #264	; 0x108
- 8002d6e:	46bd      	mov	sp, r7
- 8002d70:	bd80      	pop	{r7, pc}
- 8002d72:	bf00      	nop
- 8002d74:	08003208 	.word	0x08003208
+ 8002da8:	4618      	mov	r0, r3
+ 8002daa:	f507 7784 	add.w	r7, r7, #264	; 0x108
+ 8002dae:	46bd      	mov	sp, r7
+ 8002db0:	bd80      	pop	{r7, pc}
+ 8002db2:	bf00      	nop
+ 8002db4:	080032f4 	.word	0x080032f4
 
-08002d78 <rylr998Get>:
+08002db8 <rylr998Get>:
 }
 
 
 
 Rylr998_Status_t rylr998Get(Rylr998Handler_t* hRylr998, Rylr998Command_e command)
 {
- 8002d78:	b580      	push	{r7, lr}
- 8002d7a:	b08a      	sub	sp, #40	; 0x28
- 8002d7c:	af00      	add	r7, sp, #0
- 8002d7e:	6078      	str	r0, [r7, #4]
- 8002d80:	460b      	mov	r3, r1
- 8002d82:	70fb      	strb	r3, [r7, #3]
+ 8002db8:	b580      	push	{r7, lr}
+ 8002dba:	b08a      	sub	sp, #40	; 0x28
+ 8002dbc:	af00      	add	r7, sp, #0
+ 8002dbe:	6078      	str	r0, [r7, #4]
+ 8002dc0:	460b      	mov	r3, r1
+ 8002dc2:	70fb      	strb	r3, [r7, #3]
 	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
- 8002d84:	2301      	movs	r3, #1
- 8002d86:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
+ 8002dc4:	2301      	movs	r3, #1
+ 8002dc6:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
 	uint8_t 			txPacketSize 		= 0;
- 8002d8a:	2300      	movs	r3, #0
- 8002d8c:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002dca:	2300      	movs	r3, #0
+ 8002dcc:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 	uint16_t 			rxPacketSize 		= 0;
- 8002d90:	2300      	movs	r3, #0
- 8002d92:	84bb      	strh	r3, [r7, #36]	; 0x24
+ 8002dd0:	2300      	movs	r3, #0
+ 8002dd2:	84bb      	strh	r3, [r7, #36]	; 0x24
 	uint8_t 			uartTxBuffer[20] 	= {0};
- 8002d94:	f107 030c 	add.w	r3, r7, #12
- 8002d98:	2200      	movs	r2, #0
- 8002d9a:	601a      	str	r2, [r3, #0]
- 8002d9c:	605a      	str	r2, [r3, #4]
- 8002d9e:	609a      	str	r2, [r3, #8]
- 8002da0:	60da      	str	r2, [r3, #12]
- 8002da2:	611a      	str	r2, [r3, #16]
+ 8002dd4:	f107 030c 	add.w	r3, r7, #12
+ 8002dd8:	2200      	movs	r2, #0
+ 8002dda:	601a      	str	r2, [r3, #0]
+ 8002ddc:	605a      	str	r2, [r3, #4]
+ 8002dde:	609a      	str	r2, [r3, #8]
+ 8002de0:	60da      	str	r2, [r3, #12]
+ 8002de2:	611a      	str	r2, [r3, #16]
 
 	memcpy(uartTxBuffer, 		 AT, AT_PRIFEX_SIZE);
- 8002da4:	f107 030c 	add.w	r3, r7, #12
- 8002da8:	2203      	movs	r2, #3
- 8002daa:	4988      	ldr	r1, [pc, #544]	; (8002fcc <rylr998Get+0x254>)
- 8002dac:	4618      	mov	r0, r3
- 8002dae:	f000 f9e0 	bl	8003172 <memcpy>
+ 8002de4:	f107 030c 	add.w	r3, r7, #12
+ 8002de8:	2203      	movs	r2, #3
+ 8002dea:	4988      	ldr	r1, [pc, #544]	; (800300c <rylr998Get+0x254>)
+ 8002dec:	4618      	mov	r0, r3
+ 8002dee:	f000 fa36 	bl	800325e <memcpy>
 
 	switch (command)											//This part calculates the command length and
- 8002db2:	78fb      	ldrb	r3, [r7, #3]
- 8002db4:	2b08      	cmp	r3, #8
- 8002db6:	f200 80c5 	bhi.w	8002f44 <rylr998Get+0x1cc>
- 8002dba:	a201      	add	r2, pc, #4	; (adr r2, 8002dc0 <rylr998Get+0x48>)
- 8002dbc:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
- 8002dc0:	08002de5 	.word	0x08002de5
- 8002dc4:	08002e07 	.word	0x08002e07
- 8002dc8:	08002e37 	.word	0x08002e37
- 8002dcc:	08002e5d 	.word	0x08002e5d
- 8002dd0:	08002e89 	.word	0x08002e89
- 8002dd4:	08002eb5 	.word	0x08002eb5
- 8002dd8:	08002edb 	.word	0x08002edb
- 8002ddc:	08002f01 	.word	0x08002f01
- 8002de0:	08002f23 	.word	0x08002f23
+ 8002df2:	78fb      	ldrb	r3, [r7, #3]
+ 8002df4:	2b08      	cmp	r3, #8
+ 8002df6:	f200 80c5 	bhi.w	8002f84 <rylr998Get+0x1cc>
+ 8002dfa:	a201      	add	r2, pc, #4	; (adr r2, 8002e00 <rylr998Get+0x48>)
+ 8002dfc:	f852 f023 	ldr.w	pc, [r2, r3, lsl #2]
+ 8002e00:	08002e25 	.word	0x08002e25
+ 8002e04:	08002e47 	.word	0x08002e47
+ 8002e08:	08002e77 	.word	0x08002e77
+ 8002e0c:	08002e9d 	.word	0x08002e9d
+ 8002e10:	08002ec9 	.word	0x08002ec9
+ 8002e14:	08002ef5 	.word	0x08002ef5
+ 8002e18:	08002f1b 	.word	0x08002f1b
+ 8002e1c:	08002f41 	.word	0x08002f41
+ 8002e20:	08002f63 	.word	0x08002f63
 	{															//selects the wanted command string
 		case Rylr998_BOUDRATE:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(IPR) - 1;
- 8002de4:	2309      	movs	r3, #9
- 8002de6:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002e24:	2309      	movs	r3, #9
+ 8002e26:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, IPR);
- 8002dea:	f107 030c 	add.w	r3, r7, #12
- 8002dee:	4618      	mov	r0, r3
- 8002df0:	f7fd f9f2 	bl	80001d8 <strlen>
- 8002df4:	4603      	mov	r3, r0
- 8002df6:	461a      	mov	r2, r3
- 8002df8:	f107 030c 	add.w	r3, r7, #12
- 8002dfc:	4413      	add	r3, r2
- 8002dfe:	4a74      	ldr	r2, [pc, #464]	; (8002fd0 <rylr998Get+0x258>)
- 8002e00:	6810      	ldr	r0, [r2, #0]
- 8002e02:	6018      	str	r0, [r3, #0]
+ 8002e2a:	f107 030c 	add.w	r3, r7, #12
+ 8002e2e:	4618      	mov	r0, r3
+ 8002e30:	f7fd f9d2 	bl	80001d8 <strlen>
+ 8002e34:	4603      	mov	r3, r0
+ 8002e36:	461a      	mov	r2, r3
+ 8002e38:	f107 030c 	add.w	r3, r7, #12
+ 8002e3c:	4413      	add	r3, r2
+ 8002e3e:	4a74      	ldr	r2, [pc, #464]	; (8003010 <rylr998Get+0x258>)
+ 8002e40:	6810      	ldr	r0, [r2, #0]
+ 8002e42:	6018      	str	r0, [r3, #0]
 
 			break;
- 8002e04:	e09e      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002e44:	e09e      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_PARAMETER:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(PARAMETER) - 1;
- 8002e06:	230f      	movs	r3, #15
- 8002e08:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002e46:	230f      	movs	r3, #15
+ 8002e48:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, PARAMETER);
- 8002e0c:	f107 030c 	add.w	r3, r7, #12
- 8002e10:	4618      	mov	r0, r3
- 8002e12:	f7fd f9e1 	bl	80001d8 <strlen>
- 8002e16:	4603      	mov	r3, r0
- 8002e18:	461a      	mov	r2, r3
- 8002e1a:	f107 030c 	add.w	r3, r7, #12
- 8002e1e:	4413      	add	r3, r2
- 8002e20:	496c      	ldr	r1, [pc, #432]	; (8002fd4 <rylr998Get+0x25c>)
- 8002e22:	461a      	mov	r2, r3
- 8002e24:	460b      	mov	r3, r1
- 8002e26:	cb03      	ldmia	r3!, {r0, r1}
- 8002e28:	6010      	str	r0, [r2, #0]
- 8002e2a:	6051      	str	r1, [r2, #4]
- 8002e2c:	881b      	ldrh	r3, [r3, #0]
- 8002e2e:	8113      	strh	r3, [r2, #8]
+ 8002e4c:	f107 030c 	add.w	r3, r7, #12
+ 8002e50:	4618      	mov	r0, r3
+ 8002e52:	f7fd f9c1 	bl	80001d8 <strlen>
+ 8002e56:	4603      	mov	r3, r0
+ 8002e58:	461a      	mov	r2, r3
+ 8002e5a:	f107 030c 	add.w	r3, r7, #12
+ 8002e5e:	4413      	add	r3, r2
+ 8002e60:	496c      	ldr	r1, [pc, #432]	; (8003014 <rylr998Get+0x25c>)
+ 8002e62:	461a      	mov	r2, r3
+ 8002e64:	460b      	mov	r3, r1
+ 8002e66:	cb03      	ldmia	r3!, {r0, r1}
+ 8002e68:	6010      	str	r0, [r2, #0]
+ 8002e6a:	6051      	str	r1, [r2, #4]
+ 8002e6c:	881b      	ldrh	r3, [r3, #0]
+ 8002e6e:	8113      	strh	r3, [r2, #8]
 			rxPacketSize = 21;
- 8002e30:	2315      	movs	r3, #21
- 8002e32:	84bb      	strh	r3, [r7, #36]	; 0x24
+ 8002e70:	2315      	movs	r3, #21
+ 8002e72:	84bb      	strh	r3, [r7, #36]	; 0x24
 
 			break;
- 8002e34:	e086      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002e74:	e086      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_BAND:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(BAND) - 1;
- 8002e36:	230a      	movs	r3, #10
- 8002e38:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002e76:	230a      	movs	r3, #10
+ 8002e78:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, BAND);
- 8002e3c:	f107 030c 	add.w	r3, r7, #12
- 8002e40:	4618      	mov	r0, r3
- 8002e42:	f7fd f9c9 	bl	80001d8 <strlen>
- 8002e46:	4603      	mov	r3, r0
- 8002e48:	461a      	mov	r2, r3
- 8002e4a:	f107 030c 	add.w	r3, r7, #12
- 8002e4e:	4413      	add	r3, r2
- 8002e50:	4a61      	ldr	r2, [pc, #388]	; (8002fd8 <rylr998Get+0x260>)
- 8002e52:	6810      	ldr	r0, [r2, #0]
- 8002e54:	6018      	str	r0, [r3, #0]
- 8002e56:	7912      	ldrb	r2, [r2, #4]
- 8002e58:	711a      	strb	r2, [r3, #4]
+ 8002e7c:	f107 030c 	add.w	r3, r7, #12
+ 8002e80:	4618      	mov	r0, r3
+ 8002e82:	f7fd f9a9 	bl	80001d8 <strlen>
+ 8002e86:	4603      	mov	r3, r0
+ 8002e88:	461a      	mov	r2, r3
+ 8002e8a:	f107 030c 	add.w	r3, r7, #12
+ 8002e8e:	4413      	add	r3, r2
+ 8002e90:	4a61      	ldr	r2, [pc, #388]	; (8003018 <rylr998Get+0x260>)
+ 8002e92:	6810      	ldr	r0, [r2, #0]
+ 8002e94:	6018      	str	r0, [r3, #0]
+ 8002e96:	7912      	ldrb	r2, [r2, #4]
+ 8002e98:	711a      	strb	r2, [r3, #4]
 
 			break;
- 8002e5a:	e073      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002e9a:	e073      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_ADDRESS:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(ADDRESS) - 1;
- 8002e5c:	230d      	movs	r3, #13
- 8002e5e:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002e9c:	230d      	movs	r3, #13
+ 8002e9e:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, ADDRESS);
- 8002e62:	f107 030c 	add.w	r3, r7, #12
- 8002e66:	4618      	mov	r0, r3
- 8002e68:	f7fd f9b6 	bl	80001d8 <strlen>
- 8002e6c:	4603      	mov	r3, r0
- 8002e6e:	461a      	mov	r2, r3
- 8002e70:	f107 030c 	add.w	r3, r7, #12
- 8002e74:	4413      	add	r3, r2
- 8002e76:	4959      	ldr	r1, [pc, #356]	; (8002fdc <rylr998Get+0x264>)
- 8002e78:	461a      	mov	r2, r3
- 8002e7a:	460b      	mov	r3, r1
- 8002e7c:	cb03      	ldmia	r3!, {r0, r1}
- 8002e7e:	6010      	str	r0, [r2, #0]
- 8002e80:	6051      	str	r1, [r2, #4]
+ 8002ea2:	f107 030c 	add.w	r3, r7, #12
+ 8002ea6:	4618      	mov	r0, r3
+ 8002ea8:	f7fd f996 	bl	80001d8 <strlen>
+ 8002eac:	4603      	mov	r3, r0
+ 8002eae:	461a      	mov	r2, r3
+ 8002eb0:	f107 030c 	add.w	r3, r7, #12
+ 8002eb4:	4413      	add	r3, r2
+ 8002eb6:	4959      	ldr	r1, [pc, #356]	; (800301c <rylr998Get+0x264>)
+ 8002eb8:	461a      	mov	r2, r3
+ 8002eba:	460b      	mov	r3, r1
+ 8002ebc:	cb03      	ldmia	r3!, {r0, r1}
+ 8002ebe:	6010      	str	r0, [r2, #0]
+ 8002ec0:	6051      	str	r1, [r2, #4]
 			rxPacketSize = 12;
- 8002e82:	230c      	movs	r3, #12
- 8002e84:	84bb      	strh	r3, [r7, #36]	; 0x24
+ 8002ec2:	230c      	movs	r3, #12
+ 8002ec4:	84bb      	strh	r3, [r7, #36]	; 0x24
 
 			break;
- 8002e86:	e05d      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002ec6:	e05d      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_NETWORKID:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(NETWORKID) - 1;
- 8002e88:	230f      	movs	r3, #15
- 8002e8a:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002ec8:	230f      	movs	r3, #15
+ 8002eca:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, NETWORKID);
- 8002e8e:	f107 030c 	add.w	r3, r7, #12
- 8002e92:	4618      	mov	r0, r3
- 8002e94:	f7fd f9a0 	bl	80001d8 <strlen>
- 8002e98:	4603      	mov	r3, r0
- 8002e9a:	461a      	mov	r2, r3
- 8002e9c:	f107 030c 	add.w	r3, r7, #12
- 8002ea0:	4413      	add	r3, r2
- 8002ea2:	494f      	ldr	r1, [pc, #316]	; (8002fe0 <rylr998Get+0x268>)
- 8002ea4:	461a      	mov	r2, r3
- 8002ea6:	460b      	mov	r3, r1
- 8002ea8:	cb03      	ldmia	r3!, {r0, r1}
- 8002eaa:	6010      	str	r0, [r2, #0]
- 8002eac:	6051      	str	r1, [r2, #4]
- 8002eae:	881b      	ldrh	r3, [r3, #0]
- 8002eb0:	8113      	strh	r3, [r2, #8]
+ 8002ece:	f107 030c 	add.w	r3, r7, #12
+ 8002ed2:	4618      	mov	r0, r3
+ 8002ed4:	f7fd f980 	bl	80001d8 <strlen>
+ 8002ed8:	4603      	mov	r3, r0
+ 8002eda:	461a      	mov	r2, r3
+ 8002edc:	f107 030c 	add.w	r3, r7, #12
+ 8002ee0:	4413      	add	r3, r2
+ 8002ee2:	494f      	ldr	r1, [pc, #316]	; (8003020 <rylr998Get+0x268>)
+ 8002ee4:	461a      	mov	r2, r3
+ 8002ee6:	460b      	mov	r3, r1
+ 8002ee8:	cb03      	ldmia	r3!, {r0, r1}
+ 8002eea:	6010      	str	r0, [r2, #0]
+ 8002eec:	6051      	str	r1, [r2, #4]
+ 8002eee:	881b      	ldrh	r3, [r3, #0]
+ 8002ef0:	8113      	strh	r3, [r2, #8]
 
 			break;
- 8002eb2:	e047      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002ef2:	e047      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_CRFOP:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(CRFOP) - 1;
- 8002eb4:	230b      	movs	r3, #11
- 8002eb6:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002ef4:	230b      	movs	r3, #11
+ 8002ef6:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, CRFOP);
- 8002eba:	f107 030c 	add.w	r3, r7, #12
- 8002ebe:	4618      	mov	r0, r3
- 8002ec0:	f7fd f98a 	bl	80001d8 <strlen>
- 8002ec4:	4603      	mov	r3, r0
- 8002ec6:	461a      	mov	r2, r3
- 8002ec8:	f107 030c 	add.w	r3, r7, #12
- 8002ecc:	4413      	add	r3, r2
- 8002ece:	4a45      	ldr	r2, [pc, #276]	; (8002fe4 <rylr998Get+0x26c>)
- 8002ed0:	6810      	ldr	r0, [r2, #0]
- 8002ed2:	6018      	str	r0, [r3, #0]
- 8002ed4:	8892      	ldrh	r2, [r2, #4]
- 8002ed6:	809a      	strh	r2, [r3, #4]
+ 8002efa:	f107 030c 	add.w	r3, r7, #12
+ 8002efe:	4618      	mov	r0, r3
+ 8002f00:	f7fd f96a 	bl	80001d8 <strlen>
+ 8002f04:	4603      	mov	r3, r0
+ 8002f06:	461a      	mov	r2, r3
+ 8002f08:	f107 030c 	add.w	r3, r7, #12
+ 8002f0c:	4413      	add	r3, r2
+ 8002f0e:	4a45      	ldr	r2, [pc, #276]	; (8003024 <rylr998Get+0x26c>)
+ 8002f10:	6810      	ldr	r0, [r2, #0]
+ 8002f12:	6018      	str	r0, [r3, #0]
+ 8002f14:	8892      	ldrh	r2, [r2, #4]
+ 8002f16:	809a      	strh	r2, [r3, #4]
 
 			break;
- 8002ed8:	e034      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002f18:	e034      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_SEND:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(SEND) - 1;
- 8002eda:	230a      	movs	r3, #10
- 8002edc:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002f1a:	230a      	movs	r3, #10
+ 8002f1c:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, SEND);
- 8002ee0:	f107 030c 	add.w	r3, r7, #12
- 8002ee4:	4618      	mov	r0, r3
- 8002ee6:	f7fd f977 	bl	80001d8 <strlen>
- 8002eea:	4603      	mov	r3, r0
- 8002eec:	461a      	mov	r2, r3
- 8002eee:	f107 030c 	add.w	r3, r7, #12
- 8002ef2:	4413      	add	r3, r2
- 8002ef4:	4a3c      	ldr	r2, [pc, #240]	; (8002fe8 <rylr998Get+0x270>)
- 8002ef6:	6810      	ldr	r0, [r2, #0]
- 8002ef8:	6018      	str	r0, [r3, #0]
- 8002efa:	7912      	ldrb	r2, [r2, #4]
- 8002efc:	711a      	strb	r2, [r3, #4]
+ 8002f20:	f107 030c 	add.w	r3, r7, #12
+ 8002f24:	4618      	mov	r0, r3
+ 8002f26:	f7fd f957 	bl	80001d8 <strlen>
+ 8002f2a:	4603      	mov	r3, r0
+ 8002f2c:	461a      	mov	r2, r3
+ 8002f2e:	f107 030c 	add.w	r3, r7, #12
+ 8002f32:	4413      	add	r3, r2
+ 8002f34:	4a3c      	ldr	r2, [pc, #240]	; (8003028 <rylr998Get+0x270>)
+ 8002f36:	6810      	ldr	r0, [r2, #0]
+ 8002f38:	6018      	str	r0, [r3, #0]
+ 8002f3a:	7912      	ldrb	r2, [r2, #4]
+ 8002f3c:	711a      	strb	r2, [r3, #4]
 
 			break;
- 8002efe:	e021      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002f3e:	e021      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_UID:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(UID) - 1;
- 8002f00:	2309      	movs	r3, #9
- 8002f02:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002f40:	2309      	movs	r3, #9
+ 8002f42:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, UID);
- 8002f06:	f107 030c 	add.w	r3, r7, #12
- 8002f0a:	4618      	mov	r0, r3
- 8002f0c:	f7fd f964 	bl	80001d8 <strlen>
- 8002f10:	4603      	mov	r3, r0
- 8002f12:	461a      	mov	r2, r3
- 8002f14:	f107 030c 	add.w	r3, r7, #12
- 8002f18:	4413      	add	r3, r2
- 8002f1a:	4a34      	ldr	r2, [pc, #208]	; (8002fec <rylr998Get+0x274>)
- 8002f1c:	6810      	ldr	r0, [r2, #0]
- 8002f1e:	6018      	str	r0, [r3, #0]
+ 8002f46:	f107 030c 	add.w	r3, r7, #12
+ 8002f4a:	4618      	mov	r0, r3
+ 8002f4c:	f7fd f944 	bl	80001d8 <strlen>
+ 8002f50:	4603      	mov	r3, r0
+ 8002f52:	461a      	mov	r2, r3
+ 8002f54:	f107 030c 	add.w	r3, r7, #12
+ 8002f58:	4413      	add	r3, r2
+ 8002f5a:	4a34      	ldr	r2, [pc, #208]	; (800302c <rylr998Get+0x274>)
+ 8002f5c:	6810      	ldr	r0, [r2, #0]
+ 8002f5e:	6018      	str	r0, [r3, #0]
 
 			break;
- 8002f20:	e010      	b.n	8002f44 <rylr998Get+0x1cc>
+ 8002f60:	e010      	b.n	8002f84 <rylr998Get+0x1cc>
 		case Rylr998_VER:
 
 			txPacketSize = AT_OVERHEAD_SIZE + sizeof(VER) - 1;
- 8002f22:	2309      	movs	r3, #9
- 8002f24:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
+ 8002f62:	2309      	movs	r3, #9
+ 8002f64:	f887 3027 	strb.w	r3, [r7, #39]	; 0x27
 			strcat((char*) uartTxBuffer, VER);
- 8002f28:	f107 030c 	add.w	r3, r7, #12
- 8002f2c:	4618      	mov	r0, r3
- 8002f2e:	f7fd f953 	bl	80001d8 <strlen>
- 8002f32:	4603      	mov	r3, r0
- 8002f34:	461a      	mov	r2, r3
- 8002f36:	f107 030c 	add.w	r3, r7, #12
- 8002f3a:	4413      	add	r3, r2
- 8002f3c:	4a2c      	ldr	r2, [pc, #176]	; (8002ff0 <rylr998Get+0x278>)
- 8002f3e:	6810      	ldr	r0, [r2, #0]
- 8002f40:	6018      	str	r0, [r3, #0]
+ 8002f68:	f107 030c 	add.w	r3, r7, #12
+ 8002f6c:	4618      	mov	r0, r3
+ 8002f6e:	f7fd f933 	bl	80001d8 <strlen>
+ 8002f72:	4603      	mov	r3, r0
+ 8002f74:	461a      	mov	r2, r3
+ 8002f76:	f107 030c 	add.w	r3, r7, #12
+ 8002f7a:	4413      	add	r3, r2
+ 8002f7c:	4a2c      	ldr	r2, [pc, #176]	; (8003030 <rylr998Get+0x278>)
+ 8002f7e:	6810      	ldr	r0, [r2, #0]
+ 8002f80:	6018      	str	r0, [r3, #0]
 
 			break;
- 8002f42:	bf00      	nop
+ 8002f82:	bf00      	nop
 	}
 
 
 	strcat((char*)uartTxBuffer,  CHECK);
- 8002f44:	f107 030c 	add.w	r3, r7, #12
- 8002f48:	4618      	mov	r0, r3
- 8002f4a:	f7fd f945 	bl	80001d8 <strlen>
- 8002f4e:	4603      	mov	r3, r0
- 8002f50:	461a      	mov	r2, r3
- 8002f52:	f107 030c 	add.w	r3, r7, #12
- 8002f56:	4413      	add	r3, r2
- 8002f58:	4926      	ldr	r1, [pc, #152]	; (8002ff4 <rylr998Get+0x27c>)
- 8002f5a:	461a      	mov	r2, r3
- 8002f5c:	460b      	mov	r3, r1
- 8002f5e:	881b      	ldrh	r3, [r3, #0]
- 8002f60:	8013      	strh	r3, [r2, #0]
+ 8002f84:	f107 030c 	add.w	r3, r7, #12
+ 8002f88:	4618      	mov	r0, r3
+ 8002f8a:	f7fd f925 	bl	80001d8 <strlen>
+ 8002f8e:	4603      	mov	r3, r0
+ 8002f90:	461a      	mov	r2, r3
+ 8002f92:	f107 030c 	add.w	r3, r7, #12
+ 8002f96:	4413      	add	r3, r2
+ 8002f98:	4926      	ldr	r1, [pc, #152]	; (8003034 <rylr998Get+0x27c>)
+ 8002f9a:	461a      	mov	r2, r3
+ 8002f9c:	460b      	mov	r3, r1
+ 8002f9e:	881b      	ldrh	r3, [r3, #0]
+ 8002fa0:	8013      	strh	r3, [r2, #0]
 	strcat((char*)uartTxBuffer,  TERMINATOR);
- 8002f62:	f107 030c 	add.w	r3, r7, #12
- 8002f66:	4618      	mov	r0, r3
- 8002f68:	f7fd f936 	bl	80001d8 <strlen>
- 8002f6c:	4603      	mov	r3, r0
- 8002f6e:	461a      	mov	r2, r3
- 8002f70:	f107 030c 	add.w	r3, r7, #12
- 8002f74:	4413      	add	r3, r2
- 8002f76:	4a20      	ldr	r2, [pc, #128]	; (8002ff8 <rylr998Get+0x280>)
- 8002f78:	8811      	ldrh	r1, [r2, #0]
- 8002f7a:	7892      	ldrb	r2, [r2, #2]
- 8002f7c:	8019      	strh	r1, [r3, #0]
- 8002f7e:	709a      	strb	r2, [r3, #2]
+ 8002fa2:	f107 030c 	add.w	r3, r7, #12
+ 8002fa6:	4618      	mov	r0, r3
+ 8002fa8:	f7fd f916 	bl	80001d8 <strlen>
+ 8002fac:	4603      	mov	r3, r0
+ 8002fae:	461a      	mov	r2, r3
+ 8002fb0:	f107 030c 	add.w	r3, r7, #12
+ 8002fb4:	4413      	add	r3, r2
+ 8002fb6:	4a20      	ldr	r2, [pc, #128]	; (8003038 <rylr998Get+0x280>)
+ 8002fb8:	8811      	ldrh	r1, [r2, #0]
+ 8002fba:	7892      	ldrb	r2, [r2, #2]
+ 8002fbc:	8019      	strh	r1, [r3, #0]
+ 8002fbe:	709a      	strb	r2, [r3, #2]
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, txPacketSize, 10);
- 8002f80:	f897 3027 	ldrb.w	r3, [r7, #39]	; 0x27
- 8002f84:	b29a      	uxth	r2, r3
- 8002f86:	f107 010c 	add.w	r1, r7, #12
- 8002f8a:	230a      	movs	r3, #10
- 8002f8c:	481b      	ldr	r0, [pc, #108]	; (8002ffc <rylr998Get+0x284>)
- 8002f8e:	f7fe fd6e 	bl	8001a6e <HAL_UART_Transmit>
- 8002f92:	4603      	mov	r3, r0
- 8002f94:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
+ 8002fc0:	f897 3027 	ldrb.w	r3, [r7, #39]	; 0x27
+ 8002fc4:	b29a      	uxth	r2, r3
+ 8002fc6:	f107 010c 	add.w	r1, r7, #12
+ 8002fca:	230a      	movs	r3, #10
+ 8002fcc:	481b      	ldr	r0, [pc, #108]	; (800303c <rylr998Get+0x284>)
+ 8002fce:	f7fe fd4e 	bl	8001a6e <HAL_UART_Transmit>
+ 8002fd2:	4603      	mov	r3, r0
+ 8002fd4:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
 
 	memset(hRylr998->rylr998Receiver.rxBuffer, RESET, 20);
- 8002f98:	687b      	ldr	r3, [r7, #4]
- 8002f9a:	f203 1307 	addw	r3, r3, #263	; 0x107
- 8002f9e:	2214      	movs	r2, #20
- 8002fa0:	2100      	movs	r1, #0
- 8002fa2:	4618      	mov	r0, r3
- 8002fa4:	f000 f8f0 	bl	8003188 <memset>
+ 8002fd8:	687b      	ldr	r3, [r7, #4]
+ 8002fda:	f203 130f 	addw	r3, r3, #271	; 0x10f
+ 8002fde:	2214      	movs	r2, #20
+ 8002fe0:	2100      	movs	r1, #0
+ 8002fe2:	4618      	mov	r0, r3
+ 8002fe4:	f000 f946 	bl	8003274 <memset>
 
 	ret = HAL_UART_Receive_IT(&huart1, hRylr998->rylr998Receiver.rxBuffer, rxPacketSize);
- 8002fa8:	687b      	ldr	r3, [r7, #4]
- 8002faa:	f203 1307 	addw	r3, r3, #263	; 0x107
- 8002fae:	8cba      	ldrh	r2, [r7, #36]	; 0x24
- 8002fb0:	4619      	mov	r1, r3
- 8002fb2:	4812      	ldr	r0, [pc, #72]	; (8002ffc <rylr998Get+0x284>)
- 8002fb4:	f7fe fdf4 	bl	8001ba0 <HAL_UART_Receive_IT>
- 8002fb8:	4603      	mov	r3, r0
- 8002fba:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
+ 8002fe8:	687b      	ldr	r3, [r7, #4]
+ 8002fea:	f203 130f 	addw	r3, r3, #271	; 0x10f
+ 8002fee:	8cba      	ldrh	r2, [r7, #36]	; 0x24
+ 8002ff0:	4619      	mov	r1, r3
+ 8002ff2:	4812      	ldr	r0, [pc, #72]	; (800303c <rylr998Get+0x284>)
+ 8002ff4:	f7fe fdd4 	bl	8001ba0 <HAL_UART_Receive_IT>
+ 8002ff8:	4603      	mov	r3, r0
+ 8002ffa:	f887 3023 	strb.w	r3, [r7, #35]	; 0x23
 
 	return ret;
- 8002fbe:	f897 3023 	ldrb.w	r3, [r7, #35]	; 0x23
+ 8002ffe:	f897 3023 	ldrb.w	r3, [r7, #35]	; 0x23
 }
- 8002fc2:	4618      	mov	r0, r3
- 8002fc4:	3728      	adds	r7, #40	; 0x28
- 8002fc6:	46bd      	mov	sp, r7
- 8002fc8:	bd80      	pop	{r7, pc}
- 8002fca:	bf00      	nop
- 8002fcc:	080031d0 	.word	0x080031d0
- 8002fd0:	0800320c 	.word	0x0800320c
- 8002fd4:	08003210 	.word	0x08003210
- 8002fd8:	0800321c 	.word	0x0800321c
- 8002fdc:	080031d8 	.word	0x080031d8
- 8002fe0:	080031e4 	.word	0x080031e4
- 8002fe4:	080031f0 	.word	0x080031f0
- 8002fe8:	080031fc 	.word	0x080031fc
- 8002fec:	08003224 	.word	0x08003224
- 8002ff0:	08003228 	.word	0x08003228
- 8002ff4:	080031f8 	.word	0x080031f8
- 8002ff8:	080031d4 	.word	0x080031d4
- 8002ffc:	20000028 	.word	0x20000028
+ 8003002:	4618      	mov	r0, r3
+ 8003004:	3728      	adds	r7, #40	; 0x28
+ 8003006:	46bd      	mov	sp, r7
+ 8003008:	bd80      	pop	{r7, pc}
+ 800300a:	bf00      	nop
+ 800300c:	080032bc 	.word	0x080032bc
+ 8003010:	080032f8 	.word	0x080032f8
+ 8003014:	080032fc 	.word	0x080032fc
+ 8003018:	08003308 	.word	0x08003308
+ 800301c:	080032c4 	.word	0x080032c4
+ 8003020:	080032d0 	.word	0x080032d0
+ 8003024:	080032dc 	.word	0x080032dc
+ 8003028:	080032e8 	.word	0x080032e8
+ 800302c:	08003310 	.word	0x08003310
+ 8003030:	08003314 	.word	0x08003314
+ 8003034:	080032e4 	.word	0x080032e4
+ 8003038:	080032c0 	.word	0x080032c0
+ 800303c:	20000028 	.word	0x20000028
 
-08003000 <rylr998ResponseFind>:
+08003040 <rylr998ResponseFind>:
 
 Rylr998RxCommand_e rylr998ResponseFind(uint8_t* rxBuffer)
 {
- 8003000:	b580      	push	{r7, lr}
- 8003002:	b084      	sub	sp, #16
- 8003004:	af00      	add	r7, sp, #0
- 8003006:	6078      	str	r0, [r7, #4]
+ 8003040:	b580      	push	{r7, lr}
+ 8003042:	b084      	sub	sp, #16
+ 8003044:	af00      	add	r7, sp, #0
+ 8003046:	6078      	str	r0, [r7, #4]
 	Rylr998RxCommand_e 	ret 					= Rylr998R_NOT_FOUND;
- 8003008:	2303      	movs	r3, #3
- 800300a:	73fb      	strb	r3, [r7, #15]
+ 8003048:	2304      	movs	r3, #4
+ 800304a:	73fb      	strb	r3, [r7, #15]
 	if(!memcmp(rxBuffer, ADDRESS, 7))
- 800300c:	2207      	movs	r2, #7
- 800300e:	4914      	ldr	r1, [pc, #80]	; (8003060 <rylr998ResponseFind+0x60>)
- 8003010:	6878      	ldr	r0, [r7, #4]
- 8003012:	f000 f89f 	bl	8003154 <memcmp>
- 8003016:	4603      	mov	r3, r0
- 8003018:	2b00      	cmp	r3, #0
- 800301a:	d103      	bne.n	8003024 <rylr998ResponseFind+0x24>
+ 800304c:	2207      	movs	r2, #7
+ 800304e:	491a      	ldr	r1, [pc, #104]	; (80030b8 <rylr998ResponseFind+0x78>)
+ 8003050:	6878      	ldr	r0, [r7, #4]
+ 8003052:	f000 f8f5 	bl	8003240 <memcmp>
+ 8003056:	4603      	mov	r3, r0
+ 8003058:	2b00      	cmp	r3, #0
+ 800305a:	d103      	bne.n	8003064 <rylr998ResponseFind+0x24>
 	{
 		return ret = Rylr998R_ADDRESS;
- 800301c:	2301      	movs	r3, #1
- 800301e:	73fb      	strb	r3, [r7, #15]
- 8003020:	7bfb      	ldrb	r3, [r7, #15]
- 8003022:	e018      	b.n	8003056 <rylr998ResponseFind+0x56>
+ 800305c:	2301      	movs	r3, #1
+ 800305e:	73fb      	strb	r3, [r7, #15]
+ 8003060:	7bfb      	ldrb	r3, [r7, #15]
+ 8003062:	e024      	b.n	80030ae <rylr998ResponseFind+0x6e>
 	}
 	else if(!memcmp(rxBuffer, RCV, 3))
- 8003024:	2203      	movs	r2, #3
- 8003026:	490f      	ldr	r1, [pc, #60]	; (8003064 <rylr998ResponseFind+0x64>)
- 8003028:	6878      	ldr	r0, [r7, #4]
- 800302a:	f000 f893 	bl	8003154 <memcmp>
- 800302e:	4603      	mov	r3, r0
- 8003030:	2b00      	cmp	r3, #0
- 8003032:	d103      	bne.n	800303c <rylr998ResponseFind+0x3c>
+ 8003064:	2203      	movs	r2, #3
+ 8003066:	4915      	ldr	r1, [pc, #84]	; (80030bc <rylr998ResponseFind+0x7c>)
+ 8003068:	6878      	ldr	r0, [r7, #4]
+ 800306a:	f000 f8e9 	bl	8003240 <memcmp>
+ 800306e:	4603      	mov	r3, r0
+ 8003070:	2b00      	cmp	r3, #0
+ 8003072:	d103      	bne.n	800307c <rylr998ResponseFind+0x3c>
 	{
 		return ret = Rylr998R_RCV;
- 8003034:	2302      	movs	r3, #2
- 8003036:	73fb      	strb	r3, [r7, #15]
- 8003038:	7bfb      	ldrb	r3, [r7, #15]
- 800303a:	e00c      	b.n	8003056 <rylr998ResponseFind+0x56>
+ 8003074:	2302      	movs	r3, #2
+ 8003076:	73fb      	strb	r3, [r7, #15]
+ 8003078:	7bfb      	ldrb	r3, [r7, #15]
+ 800307a:	e018      	b.n	80030ae <rylr998ResponseFind+0x6e>
 	}
 	else if(!memcmp(rxBuffer, OK, 2))
- 800303c:	2202      	movs	r2, #2
- 800303e:	490a      	ldr	r1, [pc, #40]	; (8003068 <rylr998ResponseFind+0x68>)
- 8003040:	6878      	ldr	r0, [r7, #4]
- 8003042:	f000 f887 	bl	8003154 <memcmp>
- 8003046:	4603      	mov	r3, r0
- 8003048:	2b00      	cmp	r3, #0
- 800304a:	d103      	bne.n	8003054 <rylr998ResponseFind+0x54>
+ 800307c:	2202      	movs	r2, #2
+ 800307e:	4910      	ldr	r1, [pc, #64]	; (80030c0 <rylr998ResponseFind+0x80>)
+ 8003080:	6878      	ldr	r0, [r7, #4]
+ 8003082:	f000 f8dd 	bl	8003240 <memcmp>
+ 8003086:	4603      	mov	r3, r0
+ 8003088:	2b00      	cmp	r3, #0
+ 800308a:	d103      	bne.n	8003094 <rylr998ResponseFind+0x54>
 	{
 		return ret = Rylr998R_OK;
- 800304c:	2300      	movs	r3, #0
- 800304e:	73fb      	strb	r3, [r7, #15]
- 8003050:	7bfb      	ldrb	r3, [r7, #15]
- 8003052:	e000      	b.n	8003056 <rylr998ResponseFind+0x56>
+ 800308c:	2300      	movs	r3, #0
+ 800308e:	73fb      	strb	r3, [r7, #15]
+ 8003090:	7bfb      	ldrb	r3, [r7, #15]
+ 8003092:	e00c      	b.n	80030ae <rylr998ResponseFind+0x6e>
+	}
+	else if(!memcmp(rxBuffer, READY, 5))
+ 8003094:	2205      	movs	r2, #5
+ 8003096:	490b      	ldr	r1, [pc, #44]	; (80030c4 <rylr998ResponseFind+0x84>)
+ 8003098:	6878      	ldr	r0, [r7, #4]
+ 800309a:	f000 f8d1 	bl	8003240 <memcmp>
+ 800309e:	4603      	mov	r3, r0
+ 80030a0:	2b00      	cmp	r3, #0
+ 80030a2:	d103      	bne.n	80030ac <rylr998ResponseFind+0x6c>
+	{
+		return ret = Rylr998R_RDY;
+ 80030a4:	2303      	movs	r3, #3
+ 80030a6:	73fb      	strb	r3, [r7, #15]
+ 80030a8:	7bfb      	ldrb	r3, [r7, #15]
+ 80030aa:	e000      	b.n	80030ae <rylr998ResponseFind+0x6e>
 	}
 	return ret;
- 8003054:	7bfb      	ldrb	r3, [r7, #15]
+ 80030ac:	7bfb      	ldrb	r3, [r7, #15]
 }
- 8003056:	4618      	mov	r0, r3
- 8003058:	3710      	adds	r7, #16
- 800305a:	46bd      	mov	sp, r7
- 800305c:	bd80      	pop	{r7, pc}
- 800305e:	bf00      	nop
- 8003060:	080031d8 	.word	0x080031d8
- 8003064:	0800322c 	.word	0x0800322c
- 8003068:	08003230 	.word	0x08003230
+ 80030ae:	4618      	mov	r0, r3
+ 80030b0:	3710      	adds	r7, #16
+ 80030b2:	46bd      	mov	sp, r7
+ 80030b4:	bd80      	pop	{r7, pc}
+ 80030b6:	bf00      	nop
+ 80030b8:	080032c4 	.word	0x080032c4
+ 80030bc:	08003318 	.word	0x08003318
+ 80030c0:	0800331c 	.word	0x0800331c
+ 80030c4:	08003320 	.word	0x08003320
 
-0800306c <rylr998Int2Ascii>:
+080030c8 <checksumValidate>:
+
+Rylr998_Status_t checksumValidate(uint8_t* rxBuffer)
+{
+ 80030c8:	b480      	push	{r7}
+ 80030ca:	b085      	sub	sp, #20
+ 80030cc:	af00      	add	r7, sp, #0
+ 80030ce:	6078      	str	r0, [r7, #4]
+	Rylr998_Status_t ret = DISABLE;
+ 80030d0:	2300      	movs	r3, #0
+ 80030d2:	73fb      	strb	r3, [r7, #15]
+	uint8_t checksum = 0;
+ 80030d4:	2300      	movs	r3, #0
+ 80030d6:	73bb      	strb	r3, [r7, #14]
+	uint8_t packetSize = rxBuffer[1] - 1 - '0';
+ 80030d8:	687b      	ldr	r3, [r7, #4]
+ 80030da:	3301      	adds	r3, #1
+ 80030dc:	781b      	ldrb	r3, [r3, #0]
+ 80030de:	3b31      	subs	r3, #49	; 0x31
+ 80030e0:	733b      	strb	r3, [r7, #12]
+	for(uint8_t i = 0; i < packetSize; ++i)
+ 80030e2:	2300      	movs	r3, #0
+ 80030e4:	737b      	strb	r3, [r7, #13]
+ 80030e6:	e00b      	b.n	8003100 <checksumValidate+0x38>
+	{
+		checksum += rxBuffer[i] - '0';
+ 80030e8:	7b7b      	ldrb	r3, [r7, #13]
+ 80030ea:	687a      	ldr	r2, [r7, #4]
+ 80030ec:	4413      	add	r3, r2
+ 80030ee:	781a      	ldrb	r2, [r3, #0]
+ 80030f0:	7bbb      	ldrb	r3, [r7, #14]
+ 80030f2:	4413      	add	r3, r2
+ 80030f4:	b2db      	uxtb	r3, r3
+ 80030f6:	3b30      	subs	r3, #48	; 0x30
+ 80030f8:	73bb      	strb	r3, [r7, #14]
+	for(uint8_t i = 0; i < packetSize; ++i)
+ 80030fa:	7b7b      	ldrb	r3, [r7, #13]
+ 80030fc:	3301      	adds	r3, #1
+ 80030fe:	737b      	strb	r3, [r7, #13]
+ 8003100:	7b7a      	ldrb	r2, [r7, #13]
+ 8003102:	7b3b      	ldrb	r3, [r7, #12]
+ 8003104:	429a      	cmp	r2, r3
+ 8003106:	d3ef      	bcc.n	80030e8 <checksumValidate+0x20>
+	}
+	if(checksum == rxBuffer[3] - '0')
+ 8003108:	7bba      	ldrb	r2, [r7, #14]
+ 800310a:	687b      	ldr	r3, [r7, #4]
+ 800310c:	3303      	adds	r3, #3
+ 800310e:	781b      	ldrb	r3, [r3, #0]
+ 8003110:	3b30      	subs	r3, #48	; 0x30
+ 8003112:	429a      	cmp	r2, r3
+ 8003114:	d101      	bne.n	800311a <checksumValidate+0x52>
+	{
+		ret = ENABLE;
+ 8003116:	2301      	movs	r3, #1
+ 8003118:	73fb      	strb	r3, [r7, #15]
+	}
+	return ret;
+ 800311a:	7bfb      	ldrb	r3, [r7, #15]
+}
+ 800311c:	4618      	mov	r0, r3
+ 800311e:	3714      	adds	r7, #20
+ 8003120:	46bd      	mov	sp, r7
+ 8003122:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8003126:	4770      	bx	lr
+
+08003128 <rylr998Int2Ascii>:
 
 void rylr998Int2Ascii(uint8_t* value)
 {
- 800306c:	b480      	push	{r7}
- 800306e:	b083      	sub	sp, #12
- 8003070:	af00      	add	r7, sp, #0
- 8003072:	6078      	str	r0, [r7, #4]
+ 8003128:	b480      	push	{r7}
+ 800312a:	b083      	sub	sp, #12
+ 800312c:	af00      	add	r7, sp, #0
+ 800312e:	6078      	str	r0, [r7, #4]
 	*value += 0x30;
- 8003074:	687b      	ldr	r3, [r7, #4]
- 8003076:	781b      	ldrb	r3, [r3, #0]
- 8003078:	3330      	adds	r3, #48	; 0x30
- 800307a:	b2da      	uxtb	r2, r3
- 800307c:	687b      	ldr	r3, [r7, #4]
- 800307e:	701a      	strb	r2, [r3, #0]
+ 8003130:	687b      	ldr	r3, [r7, #4]
+ 8003132:	781b      	ldrb	r3, [r3, #0]
+ 8003134:	3330      	adds	r3, #48	; 0x30
+ 8003136:	b2da      	uxtb	r2, r3
+ 8003138:	687b      	ldr	r3, [r7, #4]
+ 800313a:	701a      	strb	r2, [r3, #0]
 }
- 8003080:	bf00      	nop
- 8003082:	370c      	adds	r7, #12
- 8003084:	46bd      	mov	sp, r7
- 8003086:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800308a:	4770      	bx	lr
+ 800313c:	bf00      	nop
+ 800313e:	370c      	adds	r7, #12
+ 8003140:	46bd      	mov	sp, r7
+ 8003142:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8003146:	4770      	bx	lr
 
-0800308c <rylr998Ascii2Int>:
+08003148 <rylr998Ascii2Int>:
 
 void rylr998Ascii2Int(uint8_t* value)
 {
- 800308c:	b480      	push	{r7}
- 800308e:	b083      	sub	sp, #12
- 8003090:	af00      	add	r7, sp, #0
- 8003092:	6078      	str	r0, [r7, #4]
+ 8003148:	b480      	push	{r7}
+ 800314a:	b083      	sub	sp, #12
+ 800314c:	af00      	add	r7, sp, #0
+ 800314e:	6078      	str	r0, [r7, #4]
 	*value -= 0x30;
- 8003094:	687b      	ldr	r3, [r7, #4]
- 8003096:	781b      	ldrb	r3, [r3, #0]
- 8003098:	3b30      	subs	r3, #48	; 0x30
- 800309a:	b2da      	uxtb	r2, r3
- 800309c:	687b      	ldr	r3, [r7, #4]
- 800309e:	701a      	strb	r2, [r3, #0]
+ 8003150:	687b      	ldr	r3, [r7, #4]
+ 8003152:	781b      	ldrb	r3, [r3, #0]
+ 8003154:	3b30      	subs	r3, #48	; 0x30
+ 8003156:	b2da      	uxtb	r2, r3
+ 8003158:	687b      	ldr	r3, [r7, #4]
+ 800315a:	701a      	strb	r2, [r3, #0]
 }
- 80030a0:	bf00      	nop
- 80030a2:	370c      	adds	r7, #12
- 80030a4:	46bd      	mov	sp, r7
- 80030a6:	f85d 7b04 	ldr.w	r7, [sp], #4
- 80030aa:	4770      	bx	lr
+ 800315c:	bf00      	nop
+ 800315e:	370c      	adds	r7, #12
+ 8003160:	46bd      	mov	sp, r7
+ 8003162:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8003166:	4770      	bx	lr
 
-080030ac <rylr998_enable>:
+08003168 <rylr998_enable>:
 
 void rylr998_enable(void)
 {
- 80030ac:	b580      	push	{r7, lr}
- 80030ae:	af00      	add	r7, sp, #0
+ 8003168:	b580      	push	{r7, lr}
+ 800316a:	af00      	add	r7, sp, #0
 	HAL_GPIO_WritePin(RYLR998_RST_GPIO_Port, RYLR998_RST_Pin, GPIO_PIN_SET);
- 80030b0:	2201      	movs	r2, #1
- 80030b2:	f44f 4180 	mov.w	r1, #16384	; 0x4000
- 80030b6:	4802      	ldr	r0, [pc, #8]	; (80030c0 <rylr998_enable+0x14>)
- 80030b8:	f7fe f812 	bl	80010e0 <HAL_GPIO_WritePin>
+ 800316c:	2201      	movs	r2, #1
+ 800316e:	f44f 4180 	mov.w	r1, #16384	; 0x4000
+ 8003172:	4802      	ldr	r0, [pc, #8]	; (800317c <rylr998_enable+0x14>)
+ 8003174:	f7fd ffb4 	bl	80010e0 <HAL_GPIO_WritePin>
 }
- 80030bc:	bf00      	nop
- 80030be:	bd80      	pop	{r7, pc}
- 80030c0:	40020400 	.word	0x40020400
+ 8003178:	bf00      	nop
+ 800317a:	bd80      	pop	{r7, pc}
+ 800317c:	40020400 	.word	0x40020400
 
-080030c4 <uloraCommunicationTest>:
-
-
+08003180 <uloraCommunicationTest>:
 #include "ulora.h"
+
+ULoraHandler_t hUloraProtocol;
 
 Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 {
- 80030c4:	b480      	push	{r7}
- 80030c6:	b085      	sub	sp, #20
- 80030c8:	af00      	add	r7, sp, #0
- 80030ca:	6078      	str	r0, [r7, #4]
+ 8003180:	b480      	push	{r7}
+ 8003182:	b085      	sub	sp, #20
+ 8003184:	af00      	add	r7, sp, #0
+ 8003186:	6078      	str	r0, [r7, #4]
 	ULoraHandler_t uloraHandler;
 	Ulora_Status_t ret = Ulora_ERROR;
- 80030cc:	2301      	movs	r3, #1
- 80030ce:	73fb      	strb	r3, [r7, #15]
+ 8003188:	2301      	movs	r3, #1
+ 800318a:	73fb      	strb	r3, [r7, #15]
 	uloraHandler.uloraPacketSize  = ULORA_CONN_COUNT_SIZE;
- 80030d0:	2304      	movs	r3, #4
- 80030d2:	737b      	strb	r3, [r7, #13]
+ 800318c:	2304      	movs	r3, #4
+ 800318e:	737b      	strb	r3, [r7, #13]
 	uloraHandler.uloraDevicesCount = 1;
- 80030d4:	2301      	movs	r3, #1
- 80030d6:	73bb      	strb	r3, [r7, #14]
+ 8003190:	2301      	movs	r3, #1
+ 8003192:	73bb      	strb	r3, [r7, #14]
 
 	payloadBuffer[0] = ULORA_CONN_COUNT + '0';
- 80030d8:	687b      	ldr	r3, [r7, #4]
- 80030da:	2232      	movs	r2, #50	; 0x32
- 80030dc:	701a      	strb	r2, [r3, #0]
+ 8003194:	687b      	ldr	r3, [r7, #4]
+ 8003196:	2232      	movs	r2, #50	; 0x32
+ 8003198:	701a      	strb	r2, [r3, #0]
 	payloadBuffer[1] = uloraHandler.uloraPacketSize + '0' ;
- 80030de:	7b7a      	ldrb	r2, [r7, #13]
- 80030e0:	687b      	ldr	r3, [r7, #4]
- 80030e2:	3301      	adds	r3, #1
- 80030e4:	3230      	adds	r2, #48	; 0x30
- 80030e6:	b2d2      	uxtb	r2, r2
- 80030e8:	701a      	strb	r2, [r3, #0]
+ 800319a:	7b7a      	ldrb	r2, [r7, #13]
+ 800319c:	687b      	ldr	r3, [r7, #4]
+ 800319e:	3301      	adds	r3, #1
+ 80031a0:	3230      	adds	r2, #48	; 0x30
+ 80031a2:	b2d2      	uxtb	r2, r2
+ 80031a4:	701a      	strb	r2, [r3, #0]
 	payloadBuffer[2] = uloraHandler.uloraDevicesCount + '0';
- 80030ea:	7bba      	ldrb	r2, [r7, #14]
- 80030ec:	687b      	ldr	r3, [r7, #4]
- 80030ee:	3302      	adds	r3, #2
- 80030f0:	3230      	adds	r2, #48	; 0x30
- 80030f2:	b2d2      	uxtb	r2, r2
- 80030f4:	701a      	strb	r2, [r3, #0]
+ 80031a6:	7bba      	ldrb	r2, [r7, #14]
+ 80031a8:	687b      	ldr	r3, [r7, #4]
+ 80031aa:	3302      	adds	r3, #2
+ 80031ac:	3230      	adds	r2, #48	; 0x30
+ 80031ae:	b2d2      	uxtb	r2, r2
+ 80031b0:	701a      	strb	r2, [r3, #0]
 //	payloadBuffer[3] =  uloraPacketChecksum(payloadBuffer,
 //											uloraHandler.uloraPacketSize) + '0';
 	payloadBuffer[3] = '7';
- 80030f6:	687b      	ldr	r3, [r7, #4]
- 80030f8:	3303      	adds	r3, #3
- 80030fa:	2237      	movs	r2, #55	; 0x37
- 80030fc:	701a      	strb	r2, [r3, #0]
+ 80031b2:	687b      	ldr	r3, [r7, #4]
+ 80031b4:	3303      	adds	r3, #3
+ 80031b6:	2237      	movs	r2, #55	; 0x37
+ 80031b8:	701a      	strb	r2, [r3, #0]
 	return ret;
- 80030fe:	7bfb      	ldrb	r3, [r7, #15]
+ 80031ba:	7bfb      	ldrb	r3, [r7, #15]
 }
- 8003100:	4618      	mov	r0, r3
- 8003102:	3714      	adds	r7, #20
- 8003104:	46bd      	mov	sp, r7
- 8003106:	f85d 7b04 	ldr.w	r7, [sp], #4
- 800310a:	4770      	bx	lr
+ 80031bc:	4618      	mov	r0, r3
+ 80031be:	3714      	adds	r7, #20
+ 80031c0:	46bd      	mov	sp, r7
+ 80031c2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80031c6:	4770      	bx	lr
 
-0800310c <__libc_init_array>:
- 800310c:	b570      	push	{r4, r5, r6, lr}
- 800310e:	4e0d      	ldr	r6, [pc, #52]	; (8003144 <__libc_init_array+0x38>)
- 8003110:	4c0d      	ldr	r4, [pc, #52]	; (8003148 <__libc_init_array+0x3c>)
- 8003112:	1ba4      	subs	r4, r4, r6
- 8003114:	10a4      	asrs	r4, r4, #2
- 8003116:	2500      	movs	r5, #0
- 8003118:	42a5      	cmp	r5, r4
- 800311a:	d109      	bne.n	8003130 <__libc_init_array+0x24>
- 800311c:	4e0b      	ldr	r6, [pc, #44]	; (800314c <__libc_init_array+0x40>)
- 800311e:	4c0c      	ldr	r4, [pc, #48]	; (8003150 <__libc_init_array+0x44>)
- 8003120:	f000 f84a 	bl	80031b8 <_init>
- 8003124:	1ba4      	subs	r4, r4, r6
- 8003126:	10a4      	asrs	r4, r4, #2
- 8003128:	2500      	movs	r5, #0
- 800312a:	42a5      	cmp	r5, r4
- 800312c:	d105      	bne.n	800313a <__libc_init_array+0x2e>
- 800312e:	bd70      	pop	{r4, r5, r6, pc}
- 8003130:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 8003134:	4798      	blx	r3
- 8003136:	3501      	adds	r5, #1
- 8003138:	e7ee      	b.n	8003118 <__libc_init_array+0xc>
- 800313a:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
- 800313e:	4798      	blx	r3
- 8003140:	3501      	adds	r5, #1
- 8003142:	e7f2      	b.n	800312a <__libc_init_array+0x1e>
- 8003144:	08003254 	.word	0x08003254
- 8003148:	08003254 	.word	0x08003254
- 800314c:	08003254 	.word	0x08003254
- 8003150:	08003258 	.word	0x08003258
+080031c8 <uloraPacketStore>:
+		checksum += buffer[i];
+	}
+	return checksum;
+}
+uint8_t uloraPacketStore(uint8_t* buffer, UloraCommand_e packeId)
+{
+ 80031c8:	b480      	push	{r7}
+ 80031ca:	b083      	sub	sp, #12
+ 80031cc:	af00      	add	r7, sp, #0
+ 80031ce:	6078      	str	r0, [r7, #4]
+ 80031d0:	460b      	mov	r3, r1
+ 80031d2:	70fb      	strb	r3, [r7, #3]
+	switch (packeId)
+ 80031d4:	78fb      	ldrb	r3, [r7, #3]
+ 80031d6:	2b02      	cmp	r3, #2
+ 80031d8:	d000      	beq.n	80031dc <uloraPacketStore+0x14>
+	{
+		case ULORA_CONN_COUNT:
+			hUloraProtocol.uloraDevicesCount = buffer[3];
+			break;
+		default:
+			break;
+ 80031da:	e004      	b.n	80031e6 <uloraPacketStore+0x1e>
+			hUloraProtocol.uloraDevicesCount = buffer[3];
+ 80031dc:	687b      	ldr	r3, [r7, #4]
+ 80031de:	78da      	ldrb	r2, [r3, #3]
+ 80031e0:	4b04      	ldr	r3, [pc, #16]	; (80031f4 <uloraPacketStore+0x2c>)
+ 80031e2:	709a      	strb	r2, [r3, #2]
+			break;
+ 80031e4:	bf00      	nop
+	}
+}
+ 80031e6:	bf00      	nop
+ 80031e8:	4618      	mov	r0, r3
+ 80031ea:	370c      	adds	r7, #12
+ 80031ec:	46bd      	mov	sp, r7
+ 80031ee:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80031f2:	4770      	bx	lr
+ 80031f4:	20000274 	.word	0x20000274
 
-08003154 <memcmp>:
- 8003154:	b530      	push	{r4, r5, lr}
- 8003156:	2400      	movs	r4, #0
- 8003158:	42a2      	cmp	r2, r4
- 800315a:	d101      	bne.n	8003160 <memcmp+0xc>
- 800315c:	2000      	movs	r0, #0
- 800315e:	e007      	b.n	8003170 <memcmp+0x1c>
- 8003160:	5d03      	ldrb	r3, [r0, r4]
- 8003162:	3401      	adds	r4, #1
- 8003164:	190d      	adds	r5, r1, r4
- 8003166:	f815 5c01 	ldrb.w	r5, [r5, #-1]
- 800316a:	42ab      	cmp	r3, r5
- 800316c:	d0f4      	beq.n	8003158 <memcmp+0x4>
- 800316e:	1b58      	subs	r0, r3, r5
- 8003170:	bd30      	pop	{r4, r5, pc}
+080031f8 <__libc_init_array>:
+ 80031f8:	b570      	push	{r4, r5, r6, lr}
+ 80031fa:	4e0d      	ldr	r6, [pc, #52]	; (8003230 <__libc_init_array+0x38>)
+ 80031fc:	4c0d      	ldr	r4, [pc, #52]	; (8003234 <__libc_init_array+0x3c>)
+ 80031fe:	1ba4      	subs	r4, r4, r6
+ 8003200:	10a4      	asrs	r4, r4, #2
+ 8003202:	2500      	movs	r5, #0
+ 8003204:	42a5      	cmp	r5, r4
+ 8003206:	d109      	bne.n	800321c <__libc_init_array+0x24>
+ 8003208:	4e0b      	ldr	r6, [pc, #44]	; (8003238 <__libc_init_array+0x40>)
+ 800320a:	4c0c      	ldr	r4, [pc, #48]	; (800323c <__libc_init_array+0x44>)
+ 800320c:	f000 f84a 	bl	80032a4 <_init>
+ 8003210:	1ba4      	subs	r4, r4, r6
+ 8003212:	10a4      	asrs	r4, r4, #2
+ 8003214:	2500      	movs	r5, #0
+ 8003216:	42a5      	cmp	r5, r4
+ 8003218:	d105      	bne.n	8003226 <__libc_init_array+0x2e>
+ 800321a:	bd70      	pop	{r4, r5, r6, pc}
+ 800321c:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8003220:	4798      	blx	r3
+ 8003222:	3501      	adds	r5, #1
+ 8003224:	e7ee      	b.n	8003204 <__libc_init_array+0xc>
+ 8003226:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 800322a:	4798      	blx	r3
+ 800322c:	3501      	adds	r5, #1
+ 800322e:	e7f2      	b.n	8003216 <__libc_init_array+0x1e>
+ 8003230:	08003348 	.word	0x08003348
+ 8003234:	08003348 	.word	0x08003348
+ 8003238:	08003348 	.word	0x08003348
+ 800323c:	0800334c 	.word	0x0800334c
 
-08003172 <memcpy>:
- 8003172:	b510      	push	{r4, lr}
- 8003174:	1e43      	subs	r3, r0, #1
- 8003176:	440a      	add	r2, r1
- 8003178:	4291      	cmp	r1, r2
- 800317a:	d100      	bne.n	800317e <memcpy+0xc>
- 800317c:	bd10      	pop	{r4, pc}
- 800317e:	f811 4b01 	ldrb.w	r4, [r1], #1
- 8003182:	f803 4f01 	strb.w	r4, [r3, #1]!
- 8003186:	e7f7      	b.n	8003178 <memcpy+0x6>
+08003240 <memcmp>:
+ 8003240:	b530      	push	{r4, r5, lr}
+ 8003242:	2400      	movs	r4, #0
+ 8003244:	42a2      	cmp	r2, r4
+ 8003246:	d101      	bne.n	800324c <memcmp+0xc>
+ 8003248:	2000      	movs	r0, #0
+ 800324a:	e007      	b.n	800325c <memcmp+0x1c>
+ 800324c:	5d03      	ldrb	r3, [r0, r4]
+ 800324e:	3401      	adds	r4, #1
+ 8003250:	190d      	adds	r5, r1, r4
+ 8003252:	f815 5c01 	ldrb.w	r5, [r5, #-1]
+ 8003256:	42ab      	cmp	r3, r5
+ 8003258:	d0f4      	beq.n	8003244 <memcmp+0x4>
+ 800325a:	1b58      	subs	r0, r3, r5
+ 800325c:	bd30      	pop	{r4, r5, pc}
 
-08003188 <memset>:
- 8003188:	4402      	add	r2, r0
- 800318a:	4603      	mov	r3, r0
- 800318c:	4293      	cmp	r3, r2
- 800318e:	d100      	bne.n	8003192 <memset+0xa>
- 8003190:	4770      	bx	lr
- 8003192:	f803 1b01 	strb.w	r1, [r3], #1
- 8003196:	e7f9      	b.n	800318c <memset+0x4>
+0800325e <memcpy>:
+ 800325e:	b510      	push	{r4, lr}
+ 8003260:	1e43      	subs	r3, r0, #1
+ 8003262:	440a      	add	r2, r1
+ 8003264:	4291      	cmp	r1, r2
+ 8003266:	d100      	bne.n	800326a <memcpy+0xc>
+ 8003268:	bd10      	pop	{r4, pc}
+ 800326a:	f811 4b01 	ldrb.w	r4, [r1], #1
+ 800326e:	f803 4f01 	strb.w	r4, [r3, #1]!
+ 8003272:	e7f7      	b.n	8003264 <memcpy+0x6>
 
-08003198 <strcat>:
- 8003198:	b510      	push	{r4, lr}
- 800319a:	4603      	mov	r3, r0
- 800319c:	781a      	ldrb	r2, [r3, #0]
- 800319e:	1c5c      	adds	r4, r3, #1
- 80031a0:	b93a      	cbnz	r2, 80031b2 <strcat+0x1a>
- 80031a2:	3b01      	subs	r3, #1
- 80031a4:	f811 2b01 	ldrb.w	r2, [r1], #1
- 80031a8:	f803 2f01 	strb.w	r2, [r3, #1]!
- 80031ac:	2a00      	cmp	r2, #0
- 80031ae:	d1f9      	bne.n	80031a4 <strcat+0xc>
- 80031b0:	bd10      	pop	{r4, pc}
- 80031b2:	4623      	mov	r3, r4
- 80031b4:	e7f2      	b.n	800319c <strcat+0x4>
+08003274 <memset>:
+ 8003274:	4402      	add	r2, r0
+ 8003276:	4603      	mov	r3, r0
+ 8003278:	4293      	cmp	r3, r2
+ 800327a:	d100      	bne.n	800327e <memset+0xa>
+ 800327c:	4770      	bx	lr
+ 800327e:	f803 1b01 	strb.w	r1, [r3], #1
+ 8003282:	e7f9      	b.n	8003278 <memset+0x4>
+
+08003284 <strcat>:
+ 8003284:	b510      	push	{r4, lr}
+ 8003286:	4603      	mov	r3, r0
+ 8003288:	781a      	ldrb	r2, [r3, #0]
+ 800328a:	1c5c      	adds	r4, r3, #1
+ 800328c:	b93a      	cbnz	r2, 800329e <strcat+0x1a>
+ 800328e:	3b01      	subs	r3, #1
+ 8003290:	f811 2b01 	ldrb.w	r2, [r1], #1
+ 8003294:	f803 2f01 	strb.w	r2, [r3, #1]!
+ 8003298:	2a00      	cmp	r2, #0
+ 800329a:	d1f9      	bne.n	8003290 <strcat+0xc>
+ 800329c:	bd10      	pop	{r4, pc}
+ 800329e:	4623      	mov	r3, r4
+ 80032a0:	e7f2      	b.n	8003288 <strcat+0x4>
 	...
 
-080031b8 <_init>:
- 80031b8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80031ba:	bf00      	nop
- 80031bc:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80031be:	bc08      	pop	{r3}
- 80031c0:	469e      	mov	lr, r3
- 80031c2:	4770      	bx	lr
+080032a4 <_init>:
+ 80032a4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80032a6:	bf00      	nop
+ 80032a8:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80032aa:	bc08      	pop	{r3}
+ 80032ac:	469e      	mov	lr, r3
+ 80032ae:	4770      	bx	lr
 
-080031c4 <_fini>:
- 80031c4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
- 80031c6:	bf00      	nop
- 80031c8:	bcf8      	pop	{r3, r4, r5, r6, r7}
- 80031ca:	bc08      	pop	{r3}
- 80031cc:	469e      	mov	lr, r3
- 80031ce:	4770      	bx	lr
+080032b0 <_fini>:
+ 80032b0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80032b2:	bf00      	nop
+ 80032b4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80032b6:	bc08      	pop	{r3}
+ 80032b8:	469e      	mov	lr, r3
+ 80032ba:	4770      	bx	lr
