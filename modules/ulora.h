@@ -27,9 +27,11 @@ typedef enum
 
 typedef enum
 {
-	ULORA_NAK = 0x00U,
+	ULORA_UNKNOWN = -1,
+	ULORA_NAK ,
 	ULORA_ACK,
 	ULORA_CONN_COUNT,
+	ULORA_MAX_ID
 
 } UloraCommand_e;
 
@@ -45,6 +47,6 @@ extern ULoraHandler_t 	hUloraProtocol;
 
 uint8_t 				uloraPacketChecksum		(uint8_t* buffer, uint8_t packetSize);
 Ulora_Status_t 			uloraCommunicationTest	(uint8_t* hModuleTransmitter);
-uint8_t 				uloraPacketStore		(uint8_t* buffer, UloraCommand_e packeId);
+uint8_t 				uloraPacketStore		(uint8_t* buffer);
 
 #endif /* ULORA_H_ */

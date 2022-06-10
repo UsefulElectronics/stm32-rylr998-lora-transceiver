@@ -112,7 +112,7 @@ int main(void)
 
 	  if(RYLR998_ReadInterruptFlag())
 	  {
-		  RYLR998_WirteInterruptFlag(DISABLE);
+		  RYLR998_WriteInterruptFlag(DISABLE);
 
 		  rylr998ReceivePacketParser(&hLoRaModule);
 	  }
@@ -273,7 +273,7 @@ static void MX_GPIO_Init(void)
  void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   /* Prevent unused argument(s) compilation warning */
-	 RYLR998_WirteInterruptFlag(ENABLE);
+	 RYLR998_WriteInterruptFlag(ENABLE);
   UNUSED(huart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxCpltCallback could be implemented in the user file

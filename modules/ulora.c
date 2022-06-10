@@ -7,8 +7,12 @@
 
 
 #include "ulora.h"
+#include "rylr998.h"
 
 ULoraHandler_t hUloraProtocol;
+
+UloraCommand_e 		uloraPacketDetermine(uint8_t idChar);
+Rylr998_Status_t 	uloraChecksumValidate(uint8_t* rxBuffer);
 
 Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 {
@@ -36,16 +40,52 @@ uint8_t uloraPacketChecksum(uint8_t* buffer, uint8_t packetSize)
 	}
 	return checksum;
 }
-uint8_t uloraPacketStore(uint8_t* buffer, UloraCommand_e packeId)
+uint8_t uloraPacketStore(uint8_t* buffer)
 {
+	UloraCommand_e packeId;
+	packeId = uloraPacketDetermine(buffer[0]);
 	switch (packeId)
 	{
 		case ULORA_CONN_COUNT:
-			hUloraProtocol.uloraDevicesCount = buffer[3];
+			if(Rylr998_OK == uloraChecksumValidate(buffer))
+			{
+				hUloraProtocol.uloraDevicesCount = buffer[3];
+				RYLR998_WriteSuccessfulRxFlag(ENABLE);
+//				LED_ON;
+			}
+
 			break;
 		default:
 			break;
 	}
+	return packeId;
+}
+UloraCommand_e uloraPacketDetermine(uint8_t idChar)
+{
+	UloraCommand_e idScanner = ULORA_UNKNOWN;
+	rylr998Ascii2Int(&idChar);
+	for(idScanner = ULORA_UNKNOWN; idScanner < ULORA_MAX_ID; ++idScanner)
+	{
+		if(idScanner == idChar)
+		{
+			break;
+		}
+	}
+	return idScanner;
 }
 
-
+Rylr998_Status_t uloraChecksumValidate(uint8_t* rxBuffer)
+{
+	Rylr998_Status_t ret = Rylr998_ERROR;
+	uint8_t checksum = 0;
+	uint8_t packetSize = rxBuffer[1] - 1 - '0';
+	for(uint8_t i = 0; i < packetSize; ++i)
+	{
+		checksum += rxBuffer[i] - '0';
+	}
+	if(checksum == rxBuffer[3] - '0')
+	{
+		ret = Rylr998_OK;
+	}
+	return ret;
+}

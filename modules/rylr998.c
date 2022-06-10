@@ -133,7 +133,8 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 
 			break;
 		case ULORA_ACK:
-
+			hRylr998->rylr998Transmitter.TxBuffer[0] = ULORA_ACK;
+			hRylr998->rylr998Transmitter.TxBuffer[1] = 0;
 			break;
 		case ULORA_CONN_COUNT:
 			uloraCommunicationTest	(hRylr998->rylr998Transmitter.TxBuffer);
@@ -193,12 +194,10 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				break;
 			case Rylr998R_RCV:
 
+				uloraPacketStore(tempUartRxBuffer + 9);
 				break;
 			case Rylr998R_RDY:
-				if(checksumValidate(tempUartRxBuffer))
-				{
-					uloraPacketStore(tempUartRxBuffer, tempUartRxBuffer[3]);	//The second parameter is wrong and must be fixed
-				}
+
 				break;
 			default:
 				break;

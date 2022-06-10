@@ -61,8 +61,11 @@
 #define RYLR998_RST_GPIO_Port 	GPIOB
 
 
-#define RYLR998_ReadInterruptFlag()			hLoRaModule.rylr998Flag.bit.B0
-#define RYLR998_WirteInterruptFlag(state)	hLoRaModule.rylr998Flag.bit.B0 = state
+#define RYLR998_ReadInterruptFlag()				hLoRaModule.rylr998Flag.bit.B0
+#define RYLR998_WriteInterruptFlag(state)		hLoRaModule.rylr998Flag.bit.B0 = state
+
+#define RYLR998_ReadSuccessfulRxFlag()			hLoRaModule.rylr998Flag.bit.B1
+#define RYLR998_WriteSuccessfulRxFlag(state)	hLoRaModule.rylr998Flag.bit.B1 = state
 
 
 //<Programmed Preamble>4~24, (default 12)
