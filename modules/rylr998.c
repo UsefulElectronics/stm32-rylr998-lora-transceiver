@@ -135,9 +135,13 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 		case ULORA_ACK:
 			hRylr998->rylr998Transmitter.TxBuffer[0] = ULORA_ACK;
 			hRylr998->rylr998Transmitter.TxBuffer[1] = 0;
+//			++packetSize;
+			packetSizeAscii[0] = '1';							//One single byte to transmit
 			break;
 		case ULORA_CONN_COUNT:
 			uloraCommunicationTest	(hRylr998->rylr998Transmitter.TxBuffer);
+			packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
+			packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
 			break;
 	}
 	packetSize += AT_OVERHEAD_SIZE + sizeof(SEND) + 2 + 1 + 1;   //2 is the number of segment separators
@@ -150,17 +154,20 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.address);
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
 
-	packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
+//	packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
+
 	//-1 is used to omit null character from consideration
-	packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
+
+//	packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
+
 //	rylr998Int2Ascii(packetSizeAscii);
 
 
 	strcat((char*) uartTxBuffer, (char*)  packetSizeAscii);
 	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
 	strcat((char*) uartTxBuffer, (char*) hRylr998->rylr998Transmitter.TxBuffer);
-	memcpy(uartTxBuffer + 16, TERMINATOR, 2);
-//	strcat((char*) uartTxBuffer, TERMINATOR);
+//	memcpy(uartTxBuffer + 16, TERMINATOR, 2);
+	strcat((char*) uartTxBuffer, TERMINATOR);
 
 	ret = HAL_UART_Transmit(&huart1, uartTxBuffer, packetSize, 10);
 
@@ -296,7 +303,6 @@ Rylr998_Status_t rylr998Get(Rylr998Handler_t* hRylr998, Rylr998Command_e command
 			break;
 	}
 
-
 	strcat((char*)uartTxBuffer,  CHECK);
 	strcat((char*)uartTxBuffer,  TERMINATOR);
 
@@ -306,6 +312,34 @@ Rylr998_Status_t rylr998Get(Rylr998Handler_t* hRylr998, Rylr998Command_e command
 
 	ret = HAL_UART_Receive_IT(&huart1, hRylr998->rylr998Receiver.rxBuffer, rxPacketSize);
 
+	return ret;
+}
+//AT+PARAMETER=<Spreading Factor>,<Bandwidth>,<Coding Rate>,<Programmed Preamble>
+Rylr998_Status_t rylr998ParameterLoad(Rylr998Handler_t* hRylr998)
+{
+	uint8_t tempParamBuffer[3];
+	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
+	uint8_t 			packetSize 			= 0;
+	uint8_t 			uartTxBuffer[50] 	= {0};
+
+	packetSize = AT_OVERHEAD_SIZE + sizeof(PARAMETER) - 1 + 1;	//-1 to get rid of the null character
+																//+1 is for adding the equal sign into consideration
+	memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
+	strcat((char*) uartTxBuffer,  PARAMETER);
+	strcat((char*)uartTxBuffer, SET_VALUE);
+
+	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
+
+	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
+
+	strcat((char*) uartTxBuffer, SEGMENT_SEPARATOR);
+
+
+
+
+	packetSize = + 3 +sizeof(TERMINATOR) - 1 ;					//+3 is for adding 3 commas
+	strcat((char*)uartTxBuffer, TERMINATOR);
+	memcpy(hRylr998->rylr998Transmitter.TxBuffer, uartTxBuffer, packetSize);
 	return ret;
 }
 
@@ -362,7 +396,29 @@ void rylr998_enable(void)
 	HAL_GPIO_WritePin(RYLR998_RST_GPIO_Port, RYLR998_RST_Pin, GPIO_PIN_SET);
 }
 
+void rylr998TargetAddressSet(Rylr998Handler_t* hRylr998, uint8_t targetAddress)
+{
+	hRylr998->rylr998Transmitter.address[0] = targetAddress + '0';
+	hRylr998->rylr998Transmitter.address[1] = 0;
+}
 
+void rylr998ReceiverTask(void)
+{
+	  if(RYLR998_ReadInterruptFlag())
+	  {
+			RYLR998_WriteInterruptFlag(DISABLE);
 
+			HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 22);
 
+			hLoRaModule.rylr998Timer = HAL_GetTick();
+
+			rylr998ReceivePacketParser(&hLoRaModule);
+	  }
+	  if(RYLR998_ReadSuccessfulRxFlag())
+	  {
+		  RYLR998_WriteSuccessfulRxFlag(DISABLE);
+		  rylr998Send(&hLoRaModule, ULORA_ACK);
+	  }
+
+}
 

@@ -51,7 +51,7 @@ uint8_t uloraPacketStore(uint8_t* buffer)
 			{
 				hUloraProtocol.uloraDevicesCount = buffer[3];
 				RYLR998_WriteSuccessfulRxFlag(ENABLE);
-//				LED_ON;
+
 			}
 
 			break;

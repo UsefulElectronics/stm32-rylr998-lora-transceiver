@@ -90,7 +90,7 @@ typedef enum
 	SF10,
 	SF11
 } Rylr998Sf_e;
-//<Coding Rate>1~4, default is 125KHz
+//<Bandwidth>7~9, default is 125KHz
 typedef enum
 {
 	B125KHz = 0x07U,
@@ -100,7 +100,7 @@ typedef enum
 //<Coding Rate>1~4, (default 1)
 typedef enum
 {
-	CR1 = 0x07U,
+	CR1 = 0x01U,
 	CR2,
 	CR3,
 	CR4
@@ -235,10 +235,12 @@ extern Rylr998Handler_t   hLoRaModule;
 
 void 			 	rylr998_disable				(void);
 void 			 	rylr998_enable				(void);
+void 				rylr998ReceiverTask			(void);
 void 				rylr998Int2Ascii			(uint8_t* value);
 void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);
 
+void 				rylr998TargetAddressSet		(Rylr998Handler_t* hRylr998, uint8_t targetAddress);
 Rylr998_Status_t 	rylr998SetNetworkId			(NetworkId3_15or18_t networkId);
 Rylr998_Status_t 	rylr998SetOutputPower		(Crfop0_22_t outpuPower);
 Rylr998_Status_t 	rylr998GetAddress			(Rylr998Handler_t* hRylr998);
@@ -249,7 +251,8 @@ Rylr998_Status_t 	rylr998GetSent				(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998GetParameter			(Rylr998Handler_t* hRylr998);
 Rylr998_Status_t 	rylr998ReceivePacketParser	(Rylr998Handler_t* hRylr998);
 
-Rylr998RxCommand_e rylr998ResponseFind			(uint8_t* rxBuffer);
+Rylr998RxCommand_e 	rylr998ResponseFind			(uint8_t* rxBuffer);
+Rylr998_Status_t 	rylr998ParameterLoad		(Rylr998Handler_t* hRylr998);
 
 
 #endif /* RYLR998_H_ */
