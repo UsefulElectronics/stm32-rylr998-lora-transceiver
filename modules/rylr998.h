@@ -215,7 +215,7 @@ typedef enum
 typedef struct
 {
 	bool 					rylr998Reset;
-	uint32_t					rylr998Timer;
+	uint32_t				rylr998Timer;
 	Flag8_t					rylr998Flag;
 
 	uint32_t				rylr998Band;
@@ -226,6 +226,7 @@ typedef struct
 	NetworkId3_15or18_t 	rylr998NetworkId;
 	Rylr998Parameter_t  	Rylr998Parameters;
 	Crfop0_22_t				Rylr998RfPower;
+	Rylr998RxCommand_e		Rylr998LastRXPacket;
 
 }Rylr998Handler_t;
 

@@ -68,8 +68,9 @@ void Error_Handler(void);
 #define RYLR998_RST_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
-extern UART_HandleTypeDef huart1;
-
+extern UART_HandleTypeDef 	huart1;
+#define LED_ON 				HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_RESET)
+#define LED_OFF 			HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_SET)
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -48,21 +48,34 @@ Rylr998_Status_t rylr998SetAddress(uint8_t* address)
 Rylr998_Status_t rylr998SetNetworkId(NetworkId3_15or18_t networkId)
 {
 	Rylr998_Status_t 	ret 				= Rylr998_ERROR;
-	uint16_t 			packetSize 		= 16;
-	char 				uartTxBuffer[16] 	= {0};
-	char 				tempNetworkId[2] 	= {0};
+	uint16_t 			packetSize 			= 0;
+	char 				uartTxBuffer[17] 	= {0};
+	char 				tempNetworkId[3] 	= {0};
 
 	if(((networkId >= 3) && (networkId <= 15)) || (networkId == 18))
 	{
-		tempNetworkId[0] = networkId + '0';				//'0' is used to convert to ASCII
+		if(networkId >= 10)
+		{
+			tempNetworkId[0] = (networkId / 10 ) + '0';	//the network ID consist of two digits.
+			tempNetworkId[1] = (networkId % 10 ) + '0';
+			packetSize = 2;
+		}
+		else
+		{
+			tempNetworkId[0] 	= networkId + '0';		//'0' is used to convert to ASCII
+			packetSize 			= 1;
+		}
 
 		memcpy(uartTxBuffer, AT, AT_PRIFEX_SIZE);
+		packetSize += AT_PRIFEX_SIZE;
 		strcat(uartTxBuffer, NETWORKID);
+		packetSize += 9;
 		strcat(uartTxBuffer, SET_VALUE);
+		packetSize += 1;
 
 		strcat((char*) uartTxBuffer,  tempNetworkId);
 		strcat((char*) uartTxBuffer, TERMINATOR);
-		packetSize 		= 16;
+		packetSize 		+= 2;
 		ret = HAL_UART_Transmit(&huart1,(uint8_t*) uartTxBuffer, packetSize, 10);
 	}
 	return ret;
@@ -184,7 +197,8 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 
 	if(!memcmp(tempUartRxBuffer, RX_PACKET_START, 1))
 	{
-		command = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
+		hRylr998->Rylr998LastRXPacket = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
+		command = hRylr998->Rylr998LastRXPacket ;
 		switch (command)
 		{
 			case Rylr998R_OK:
@@ -200,7 +214,7 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				}
 				break;
 			case Rylr998R_RCV:
-
+				hLoRaModule.rylr998Timer = HAL_GetTick();
 				uloraPacketStore(tempUartRxBuffer + 9);
 				break;
 			case Rylr998R_RDY:
