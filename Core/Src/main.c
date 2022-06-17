@@ -41,6 +41,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart1;
+DMA_HandleTypeDef hdma_usart1_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
 
@@ -49,6 +51,7 @@ UART_HandleTypeDef huart1;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
@@ -87,6 +90,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   rylr998_enable();
@@ -97,12 +101,13 @@ int main(void)
   hLoRaModule.Rylr998RfPower   = 22;
   hLoRaModule.rylr998Transmitter.address[0] = '1';
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
+  HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
 //  HAL_Delay(20);
 //  rylr998SetNetworkId			(hLoRaModule.rylr998NetworkId);
   HAL_Delay(30);
-  rylr998SetOutputPower			(hLoRaModule.Rylr998RfPower);
+//  rylr998SetOutputPower			(hLoRaModule.Rylr998RfPower);
   HAL_Delay(20);
-  HAL_UART_Transmit(&huart1, "AT+CRC=0\r\n", 10, 10);
+//  HAL_UART_Transmit(&huart1, "AT+CRC=0\r\n", 10, 10);
   HAL_Delay(20);
 //    rylr998SetAddress(address);
   /* USER CODE END 2 */
@@ -117,12 +122,13 @@ int main(void)
 		  RYLR998_WriteInterruptFlag(DISABLE);
 
 		  rylr998ReceivePacketParser(&hLoRaModule);
-
-		  if(hLoRaModule.Rylr998LastRXPacket)
-		  {
-			  LED_ON;
-		  }
 	  }
+	 if(RYLR998_ReadSuccessfulTxFlag())
+	 {
+		 RYLR998_WriteSuccessfulTxFlag(DISABLE);
+		 hLoRaModule.rylr998Timer = HAL_GetTick();
+		 LED_ON;
+	 }
 	  if(!HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin))
 	  {
 		  if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
@@ -132,6 +138,7 @@ int main(void)
 			  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
 		  }
 	  }
+
 
 	  if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
 	  {
@@ -233,6 +240,25 @@ static void MX_USART1_UART_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+  /* DMA2_Stream7_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream7_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -289,6 +315,13 @@ static void MX_GPIO_Init(void)
            the HAL_UART_RxCpltCallback could be implemented in the user file
    */
 }
+
+ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+ {
+ 	RYLR998_WriteInterruptFlag(ENABLE);
+ 	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
+ 	 __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+ }
 /* USER CODE END 4 */
 
 /**

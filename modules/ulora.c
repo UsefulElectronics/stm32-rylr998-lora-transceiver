@@ -51,9 +51,10 @@ uint8_t uloraPacketStore(uint8_t* buffer)
 			{
 				hUloraProtocol.uloraDevicesCount = buffer[3];
 				RYLR998_WriteSuccessfulRxFlag(ENABLE);
-
 			}
-
+			break;
+		case ULORA_ACK:
+			RYLR998_WriteSuccessfulTxFlag(ENABLE);
 			break;
 		default:
 			break;
@@ -63,7 +64,7 @@ uint8_t uloraPacketStore(uint8_t* buffer)
 UloraCommand_e uloraPacketDetermine(uint8_t idChar)
 {
 	UloraCommand_e idScanner = ULORA_UNKNOWN;
-	rylr998Ascii2Int(&idChar);
+//	rylr998Ascii2Int(&idChar);
 	for(idScanner = ULORA_UNKNOWN; idScanner < ULORA_MAX_ID; ++idScanner)
 	{
 		if(idScanner == idChar)

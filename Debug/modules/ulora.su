@@ -1,5 +1,5 @@
 ulora.c:17:16:uloraCommunicationTest	24	static
 ulora.c:33:9:uloraPacketChecksum	24	static
 ulora.c:43:9:uloraPacketStore	24	static
-ulora.c:63:16:uloraPacketDetermine	24	static
-ulora.c:77:18:uloraChecksumValidate	24	static
+ulora.c:64:16:uloraPacketDetermine	24	static
+ulora.c:78:18:uloraChecksumValidate	24	static

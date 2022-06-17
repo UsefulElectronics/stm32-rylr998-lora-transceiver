@@ -41,7 +41,7 @@
 #define RX_PACKET_START			"+"
 #define SEGMENT_SEPARATOR		","
 
-#define RYLR998_ADDRESS			0x01
+#define RYLR998_ADDRESS			0x02
 
 #define AT_PRIFEX_SIZE			0x03
 #define AT_TERMINATOR_SIZE		0x02
@@ -66,6 +66,9 @@
 
 #define RYLR998_ReadSuccessfulRxFlag()			hLoRaModule.rylr998Flag.bit.B1
 #define RYLR998_WriteSuccessfulRxFlag(state)	hLoRaModule.rylr998Flag.bit.B1 = state
+
+#define RYLR998_ReadSuccessfulTxFlag()			hLoRaModule.rylr998Flag.bit.B2
+#define RYLR998_WriteSuccessfulTxFlag(state)	hLoRaModule.rylr998Flag.bit.B2 = state
 
 
 //<Programmed Preamble>4~24, (default 12)
