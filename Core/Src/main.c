@@ -96,59 +96,50 @@ int main(void)
   rylr998_enable();
   HAL_Delay(100);
   rylr998Get(&hLoRaModule, Rylr998_ADDRESS);
-//  rylr998GetAddress(&hLoRaModule);
-  hLoRaModule.rylr998NetworkId = 6;
-  hLoRaModule.Rylr998RfPower   = 22;
-  hLoRaModule.rylr998Transmitter.address[0] = '1';
+
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
+
   HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
-//  HAL_Delay(20);
-//  rylr998SetNetworkId			(hLoRaModule.rylr998NetworkId);
-  HAL_Delay(30);
-//  rylr998SetOutputPower			(hLoRaModule.Rylr998RfPower);
-  HAL_Delay(20);
-//  HAL_UART_Transmit(&huart1, "AT+CRC=0\r\n", 10, 10);
-  HAL_Delay(20);
-//    rylr998SetAddress(address);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+	while (1)
+	{
+		//Start packet parsing once a packet is received over UART
+		if(RYLR998_ReadInterruptFlag())
+		{
+			  RYLR998_WriteInterruptFlag(DISABLE);
 
-	  if(RYLR998_ReadInterruptFlag())
-	  {
-		  RYLR998_WriteInterruptFlag(DISABLE);
+			  rylr998ReceivePacketParser(&hLoRaModule);
+		}
+		//Turn on the Blue LED for 300ms when ULoRa ACK is received
+		if(RYLR998_ReadSuccessfulTxFlag())
+		{
+			 RYLR998_WriteSuccessfulTxFlag(DISABLE);
+			 hLoRaModule.rylr998Timer = HAL_GetTick();
+			 LED_ON;
+		}
+		//Send ULORA_CONN_COUNT when a button press is detected every on second
+		if(!HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin))
+		{
+			if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
+			{
+				hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
 
-		  rylr998ReceivePacketParser(&hLoRaModule);
-	  }
-	 if(RYLR998_ReadSuccessfulTxFlag())
-	 {
-		 RYLR998_WriteSuccessfulTxFlag(DISABLE);
-		 hLoRaModule.rylr998Timer = HAL_GetTick();
-		 LED_ON;
-	 }
-	  if(!HAL_GPIO_ReadPin(BUTTON_GPIO_Port, BUTTON_Pin))
-	  {
-		  if(HAL_GetTick() - hLoRaModule.rylr998Transmitter.timer >= 1000)
-		  {
-			  hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
-
-			  rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
-		  }
-	  }
-
-
-	  if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
-	  {
+				rylr998Send(&hLoRaModule, ULORA_CONN_COUNT);
+			}
+		}
+		//Keep blue LED turned on for 300ms
+		if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
+		{
 		  LED_OFF;
-	  }
+		}
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+	}
   /* USER CODE END 3 */
 }
 
@@ -306,22 +297,47 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
- void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  /* Prevent unused argument(s) compilation warning */
-	 RYLR998_WriteInterruptFlag(ENABLE);
-  UNUSED(huart);
-  /* NOTE: This function should not be modified, when the callback is needed,
-           the HAL_UART_RxCpltCallback could be implemented in the user file
-   */
+
+	RYLR998_WriteInterruptFlag(ENABLE);
+	UNUSED(huart);
 }
 
- void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
- {
- 	RYLR998_WriteInterruptFlag(ENABLE);
- 	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
- 	 __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
- }
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	RYLR998_WriteInterruptFlag(ENABLE);
+	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
+	 __HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+}
+
+void receiverTask(void)
+{
+	//Start packet parsing once a packet is received over UART
+	if(RYLR998_ReadInterruptFlag())
+	{
+		RYLR998_WriteInterruptFlag(DISABLE);
+
+		hLoRaModule.rylr998Timer = HAL_GetTick();
+
+		rylr998ReceivePacketParser(&hLoRaModule);
+	}
+	//Turn on the Green LED for 300ms when ULoRa Packet is from the transmitter side.
+	if(RYLR998_ReadSuccessfulRxFlag())
+	{
+	  RYLR998_WriteSuccessfulRxFlag(DISABLE);
+
+	  rylr998Send(&hLoRaModule, ULORA_ACK);
+
+	  LED_ON;
+	}
+	//Keep blue LED turned on for 300ms
+	if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
+	{
+	  LED_OFF;
+	}
+}
+
 /* USER CODE END 4 */
 
 /**

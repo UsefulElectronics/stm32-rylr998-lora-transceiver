@@ -10,6 +10,7 @@
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/stm32-rylr998-lora-transceiver/blob/master/Circuit%20Diagrams/Hardware%20Connection.jpg)
 
-
-
+***
+### STM32 LoRa Receiver Task
+The code running on the receiver board has been added and now the receiver answers with acknowledgment packet back to the transmitter board. The transmitter board can also now handle the ACK packet and lights up an LED as ACK reception indication.
 

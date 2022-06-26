@@ -240,6 +240,7 @@ extern Rylr998Handler_t   hLoRaModule;
 void 			 	rylr998_disable				(void);
 void 			 	rylr998_enable				(void);
 void 				rylr998ReceiverTask			(void);
+void 				rylr998ModuleInitialize		(Rylr998Handler_t* hRylr998);
 void 				rylr998Int2Ascii			(uint8_t* value);
 void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);

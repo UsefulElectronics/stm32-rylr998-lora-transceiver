@@ -435,4 +435,9 @@ void rylr998ReceiverTask(void)
 	  }
 
 }
-
+void rylr998ModuleInitialize(Rylr998Handler_t* hRylr998)
+{
+	hRylr998->rylr998NetworkId = 6;
+	hRylr998->Rylr998RfPower   = 22;
+	hRylr998->rylr998Transmitter.address[0] = '1';
+}
