@@ -16,7 +16,7 @@
 /* PRIVATE STRUCTRES ---------------------------------------------------------*/
 
 /* VARIABLES -----------------------------------------------------------------*/
-
+hc_sr501_t hPirSensor;
 /* DEFINITIONS ---------------------------------------------------------------*/
 
 /* MACROS --------------------------------------------------------------------*/
@@ -29,9 +29,15 @@
  *
  * @param hMotionSens
  */
-void hc_sr501Init(hc_sr501_t* hMotionSens)
+void hc_sr501Init(hc_sr501_t* hMotionSens, uint32_t onTime)
 {
+	memset(hMotionSens, 0, sizeof(hc_sr501_t));
+
+	hMotionSens->sensorTimeout = onTime * 1000;
+
 	hMotionSens->sesorActivation = true;
+
+
 }
 /**
  * @brief
@@ -88,14 +94,33 @@ void hc_sr501UpdateTimer(hc_sr501_t* hMotionSens,uint32_t currentTickValue)
  * @param hMotionSens
  * @param timeout
  */
-bool boolhc_sr501CheckTimer(hc_sr501_t* hMotionSens, uint32_t currentTickValue, uint32_t timeout)
+bool hc_sr501CheckTimer(hc_sr501_t* hMotionSens, uint32_t currentTickValue)
 {
 	bool ret = false;
-	ret = currentTickValue - hMotionSens->sensorTimer >= timeout ? true : false;
+	ret = currentTickValue - hMotionSens->sensorTimer >= hMotionSens->sensorTimeout ? true : false;
 	if(ret)
 	{
 		hc_sr501UpdateTimer(hMotionSens, currentTickValue);
 	}
 	return ret;
+}
+/**
+ * @brief
+ *
+ * @param hMotionSens
+ * @param outputStatus
+ * @return
+ */
+bool hc_sr501Handle(hc_sr501_t* hMotionSens,bool outputStatus, uint32_t currentTickValue)
+{	//Check if the the PIR sensor init is executed.
+	if(hMotionSens->sesorActivation)
+	{
+		if(hc_sr501CheckTimer(hMotionSens, currentTickValue))
+		{
+			hc_sr501UpdateStatus(hMotionSens, outputStatus);
+		}
+
+	}
+	return hc_sr501ReadStatus(hMotionSens);
 }
 /**************************  Useful Electronics  ****************END OF FILE***/
