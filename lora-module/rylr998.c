@@ -1,10 +1,17 @@
-/*
- * rylr998.c
+
+/**
+ ******************************************************************************
+ * @Channel Link    :  https://www.youtube.com/user/wardzx1
+ * @file    		:  rylr998.c
+ * @author  		:  Ward Almasarani - Useful Electronics
+ * @version 		:  v.1.0
+ * @date    		:  Jun 1, 2022
+ * @brief   		:
  *
- *  Created on: May 4, 2022
- *      Author: Ward
- */
-#include <rylr998.h>
+ ******************************************************************************/
+
+
+#include "rylr998.h"
 
 
 Rylr998Handler_t   hLoRaModule;
@@ -156,6 +163,10 @@ Rylr998_Status_t rylr998Send(Rylr998Handler_t* hRylr998, UloraCommand_e uLoRaCom
 			packetSize += hRylr998->rylr998Transmitter.TxBuffer[1] - 1 - '0' ;
 			packetSizeAscii[0] = hRylr998->rylr998Transmitter.TxBuffer[1];
 			break;
+		case ULORA_PIR_SENS:
+			uloraPirStatusLoad(hRylr998->rylr998Transmitter.TxBuffer);
+			packetSizeAscii[0] = '3';
+			break;
 	}
 	packetSize += AT_OVERHEAD_SIZE + sizeof(SEND) + 2 + 1 + 1;   //2 is the number of segment separators
 																 //1 is for the receiver address
@@ -197,8 +208,7 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 
 	if(!memcmp(tempUartRxBuffer, RX_PACKET_START, 1))
 	{
-		hRylr998->Rylr998LastRXPacket = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
-		command = hRylr998->Rylr998LastRXPacket ;
+		command = rylr998ResponseFind	(tempUartRxBuffer + RESPONSE_OFFSET);
 		switch (command)
 		{
 			case Rylr998R_OK:
@@ -214,8 +224,10 @@ Rylr998_Status_t rylr998ReceivePacketParser(Rylr998Handler_t* hRylr998)
 				}
 				break;
 			case Rylr998R_RCV:
-				hLoRaModule.rylr998Timer = HAL_GetTick();
-				uloraPacketStore(tempUartRxBuffer + 9);
+				if(uloraPacketStore(tempUartRxBuffer + 9) != ULORA_MAX_ID)
+				{
+					RYLR998_WriteSuccessfulRxFlag(ENABLE);
+				}
 				break;
 			case Rylr998R_RDY:
 
@@ -433,11 +445,9 @@ void rylr998ReceiverTask(void)
 		  RYLR998_WriteSuccessfulRxFlag(DISABLE);
 		  rylr998Send(&hLoRaModule, ULORA_ACK);
 	  }
+	  if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
+	  {
+		  LED_OFF;
+	  }
+}
 
-}
-void rylr998ModuleInitialize(Rylr998Handler_t* hRylr998)
-{
-	hRylr998->rylr998NetworkId = 6;
-	hRylr998->Rylr998RfPower   = 22;
-	hRylr998->rylr998Transmitter.address[0] = '1';
-}

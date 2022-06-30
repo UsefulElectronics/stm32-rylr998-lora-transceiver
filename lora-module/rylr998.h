@@ -1,21 +1,28 @@
-/*
- * rylr998.h
+
+/**
+ ******************************************************************************
+ * @Channel Link    :  https://www.youtube.com/user/wardzx1
+ * @file    		:  rylr998.h
+ * @author  		:  Ward Almasarani - Useful Electronics
+ * @version 		:  v.1.0
+ * @date    		:  Jun 1, 2022
+ * @brief   		:
  *
- *  Created on: May 4, 2022
- *      Author: Ward
- */
+ ******************************************************************************/
+
 
 #ifndef RYLR998_H_
 #define RYLR998_H_
 
-#include "stm32f4xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
 
 #include <main.h>
-#include "ulora.h"
+
+#include "../lora-module/ulora.h"
 //AT Command Set
 #define TEST					"AT"
 #define AT						"AT+"
@@ -41,7 +48,7 @@
 #define RX_PACKET_START			"+"
 #define SEGMENT_SEPARATOR		","
 
-#define RYLR998_ADDRESS			0x02
+#define RYLR998_ADDRESS			0x01
 
 #define AT_PRIFEX_SIZE			0x03
 #define AT_TERMINATOR_SIZE		0x02
@@ -66,9 +73,6 @@
 
 #define RYLR998_ReadSuccessfulRxFlag()			hLoRaModule.rylr998Flag.bit.B1
 #define RYLR998_WriteSuccessfulRxFlag(state)	hLoRaModule.rylr998Flag.bit.B1 = state
-
-#define RYLR998_ReadSuccessfulTxFlag()			hLoRaModule.rylr998Flag.bit.B2
-#define RYLR998_WriteSuccessfulTxFlag(state)	hLoRaModule.rylr998Flag.bit.B2 = state
 
 
 //<Programmed Preamble>4~24, (default 12)
@@ -218,7 +222,7 @@ typedef enum
 typedef struct
 {
 	bool 					rylr998Reset;
-	uint32_t				rylr998Timer;
+	uint32_t					rylr998Timer;
 	Flag8_t					rylr998Flag;
 
 	uint32_t				rylr998Band;
@@ -229,7 +233,6 @@ typedef struct
 	NetworkId3_15or18_t 	rylr998NetworkId;
 	Rylr998Parameter_t  	Rylr998Parameters;
 	Crfop0_22_t				Rylr998RfPower;
-	Rylr998RxCommand_e		Rylr998LastRXPacket;
 
 }Rylr998Handler_t;
 
@@ -240,7 +243,6 @@ extern Rylr998Handler_t   hLoRaModule;
 void 			 	rylr998_disable				(void);
 void 			 	rylr998_enable				(void);
 void 				rylr998ReceiverTask			(void);
-void 				rylr998ModuleInitialize		(Rylr998Handler_t* hRylr998);
 void 				rylr998Int2Ascii			(uint8_t* value);
 void 				rylr998Ascii2Int			(uint8_t* value);
 Rylr998_Status_t 	rylr998Test					(void);

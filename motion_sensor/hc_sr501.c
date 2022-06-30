@@ -33,7 +33,7 @@ void hc_sr501Init(hc_sr501_t* hMotionSens, uint32_t onTime)
 {
 	memset(hMotionSens, 0, sizeof(hc_sr501_t));
 
-	hMotionSens->sensorTimeout = onTime * 1000;
+	hMotionSens->sensorTimeout = onTime;
 
 	hMotionSens->sesorActivation = true;
 
@@ -118,6 +118,15 @@ bool hc_sr501Handle(hc_sr501_t* hMotionSens,bool outputStatus, uint32_t currentT
 		if(hc_sr501CheckTimer(hMotionSens, currentTickValue))
 		{
 			hc_sr501UpdateStatus(hMotionSens, outputStatus);
+			if(outputStatus)
+			{
+				//If motion is detected, block detection for around 9 seconds
+				hMotionSens->sensorTimeout = HC_SR501_DETECTION_TIME_HIGH + HC_SR501_BLOCK_TIME_LOW;
+			}
+			else
+			{
+				hMotionSens->sensorTimeout = 500;
+			}
 		}
 
 	}

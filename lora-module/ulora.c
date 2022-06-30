@@ -1,12 +1,17 @@
-/*
- * ulora.c
- *
- *  Created on: May 17, 2022
- *      Author: Ward
- */
 
+/**
+ ******************************************************************************
+ * @Channel Link    :  https://www.youtube.com/user/wardzx1
+ * @file    		:  ulora.c
+ * @author  		:  Ward Almasarani - Useful Electronics
+ * @version 		:  v.1.0
+ * @date    		:  Jun 1, 2022
+ * @brief   		:
+ *
+ ******************************************************************************/
 
 #include "ulora.h"
+
 #include "rylr998.h"
 
 ULoraHandler_t hUloraProtocol;
@@ -24,9 +29,19 @@ Ulora_Status_t uloraCommunicationTest(uint8_t* payloadBuffer)
 	payloadBuffer[0] = ULORA_CONN_COUNT + '0';
 	payloadBuffer[1] = uloraHandler.uloraPacketSize + '0' ;
 	payloadBuffer[2] = uloraHandler.uloraDevicesCount + '0';
-//	payloadBuffer[3] =  uloraPacketChecksum(payloadBuffer,
-//											uloraHandler.uloraPacketSize) + '0';
+
 	payloadBuffer[3] = '7';
+
+	ret = Ulora_OK;
+	return ret;
+}
+Ulora_Status_t uloraPirStatusLoad(uint8_t* payloadBuffer)
+{
+	Ulora_Status_t ret = Ulora_ERROR;
+	payloadBuffer[0] = ULORA_PIR_SENS;
+	payloadBuffer[1] = hUloraProtocol.uloraPirDetection;
+	payloadBuffer[2] = uloraPacketChecksum(payloadBuffer, 3);
+	ret = Ulora_OK;
 	return ret;
 }
 
@@ -50,11 +65,13 @@ uint8_t uloraPacketStore(uint8_t* buffer)
 			if(Rylr998_OK == uloraChecksumValidate(buffer))
 			{
 				hUloraProtocol.uloraDevicesCount = buffer[3];
-				RYLR998_WriteSuccessfulRxFlag(ENABLE);
 			}
-			break;
-		case ULORA_ACK:
-			RYLR998_WriteSuccessfulTxFlag(ENABLE);
+		case ULORA_PIR_SENS:
+			//TODO Modify code segment below
+			if(Rylr998_OK == uloraChecksumValidate(buffer))
+			{
+				hUloraProtocol.uloraDevicesCount = buffer[3];
+			}
 			break;
 		default:
 			break;
@@ -64,7 +81,7 @@ uint8_t uloraPacketStore(uint8_t* buffer)
 UloraCommand_e uloraPacketDetermine(uint8_t idChar)
 {
 	UloraCommand_e idScanner = ULORA_UNKNOWN;
-//	rylr998Ascii2Int(&idChar);
+	rylr998Ascii2Int(&idChar);
 	for(idScanner = ULORA_UNKNOWN; idScanner < ULORA_MAX_ID; ++idScanner)
 	{
 		if(idScanner == idChar)

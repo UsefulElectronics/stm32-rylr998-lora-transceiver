@@ -19,8 +19,8 @@
 #include <stdio.h>
 #include <string.h>
 /* MACROS --------------------------------------------------------------------*/
-#define HC_SR501_DETECTION_TIME_HIGH	3		//3ms
-#define HC_SR501_BLOCK_TIME_LOW			6		//3ms
+#define HC_SR501_DETECTION_TIME_HIGH	2800		//ms
+#define HC_SR501_BLOCK_TIME_LOW			6300		//ms
 /* ENUMORATIONS --------------------------------------------------------------*/
 
 /* STRUCTURES & TYPEDEFS -----------------------------------------------------*/
