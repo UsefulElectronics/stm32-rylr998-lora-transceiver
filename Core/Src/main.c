@@ -22,7 +22,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "hc_sr501.h"
+#include "rylr998.h"
+#include "siren.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +47,7 @@ DMA_HandleTypeDef hdma_usart1_rx;
 DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
-
+TIM_HandleTypeDef htim2;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -53,6 +55,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM2_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -93,13 +96,27 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  MX_TIM2_Init();
+
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+
   rylr998_enable();
   HAL_Delay(100);
   rylr998Get(&hLoRaModule, Rylr998_ADDRESS);
-
+  HAL_Delay(10);
   hLoRaModule.rylr998Transmitter.timer = HAL_GetTick();
-
+  hLoRaModule.rylr998Transmitter.address[0] = '1';
   HAL_UARTEx_ReceiveToIdle_DMA(&huart1, hLoRaModule.rylr998Receiver.rxBuffer, 100);
+  HAL_Delay(10);
+
+
+  sirenInitialize(&hSiren,
+  					500,
+  					50,
+  					1);
+  sirenSoundLevelSet(&hSiren, (uint32_t*) &htim2.Instance->CCR1, 50);
+
+  sirenStop(&hSiren, (uint32_t*) &htim2.Instance->CCR1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,6 +152,23 @@ int main(void)
 		{
 		  LED_OFF;
 		}
+		if(RYLR998_ReadPirSensorPackRxFlag())
+		{
+			RYLR998_WritePirSensorPackRxFlag(DISABLE);
+			rylr998Send(&hLoRaModule, ULORA_ACK);
+			hLoRaModule.rylr998Timer = HAL_GetTick();
+			LED_ON;
+		}
+
+		if(hUloraProtocol.uloraPirDetection)
+		{
+			sirenStart(&hSiren,(uint32_t*) &htim2.Instance->CCR1, HAL_GetTick());
+		}
+		else
+		{
+			sirenStop(&hSiren,(uint32_t*) &htim2.Instance->CCR1);
+		}
+		sirenHandler(&hSiren,(uint32_t*) &htim2.Instance->PSC, HAL_GetTick());
 
     /* USER CODE END WHILE */
 
@@ -297,6 +331,56 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+/**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 100;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 1000;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 500;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+  HAL_TIM_MspPostInit(&htim2);
+
+}
+
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 
@@ -336,6 +420,31 @@ void receiverTask(void)
 	{
 	  LED_OFF;
 	}
+	  //Send PIR sensor status continuously to the main alarm board
+	  if(HAL_GetTick() - hLoRaModule.rylr998SensorTimer  > 500)
+	  {
+		  hLoRaModule.rylr998SensorTimer 	= HAL_GetTick();
+
+		  hUloraProtocol.uloraPirDetection 	= hc_sr501ReadStatus(&hPirSensor);
+
+		  rylr998Send(&hLoRaModule, ULORA_PIR_SENS);
+
+	  }
+	  //PIR sensor handler
+
+	  //ACK handler
+	  if(RYLR998_ReadSuccessfulTxFlag())
+	  {
+		  RYLR998_WriteSuccessfulTxFlag(DISABLE);
+		  hLoRaModule.rylr998Timer = HAL_GetTick();
+		  LED_ON;
+	  }
+	  if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
+	  {
+		  LED_OFF;
+	  }
+
+
 }
 
 /* USER CODE END 4 */

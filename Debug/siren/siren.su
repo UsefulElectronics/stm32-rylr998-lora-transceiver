@@ -1,0 +1,5 @@
+../siren/siren.c:37:6:sirenHandler	24	static
+../siren/siren.c:71:6:sirenSoundLevelSet	24	static
+../siren/siren.c:85:6:sirenInitialize	24	static
+../siren/siren.c:103:6:sirenStart	24	static
+../siren/siren.c:117:6:sirenStop	16	static

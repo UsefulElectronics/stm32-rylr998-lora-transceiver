@@ -1,0 +1,6 @@
+../lora_module/ulora.c:22:16:uloraCommunicationTest	24	static
+../lora_module/ulora.c:38:16:uloraPirStatusLoad	32	static
+../lora_module/ulora.c:48:9:uloraPacketChecksum	24	static
+../lora_module/ulora.c:58:9:uloraPacketStore	24	static
+../lora_module/ulora.c:87:16:uloraPacketDetermine	24	static
+../lora_module/ulora.c:101:18:uloraChecksumValidate	24	static

@@ -1,0 +1,8 @@
+../motion_sensor/hc_sr501.c:32:6:hc_sr501Init	16	static
+../motion_sensor/hc_sr501.c:48:6:hc_sr501ReadStatus	16	static
+../motion_sensor/hc_sr501.c:58:6:hc_sr501UpdateStatus	16	static
+../motion_sensor/hc_sr501.c:67:6:hc_sr501ResetTimer	16	static
+../motion_sensor/hc_sr501.c:77:10:hc_sr501ReadTimer	16	static
+../motion_sensor/hc_sr501.c:87:6:hc_sr501UpdateTimer	16	static
+../motion_sensor/hc_sr501.c:97:6:hc_sr501CheckTimer	24	static
+../motion_sensor/hc_sr501.c:114:6:hc_sr501Handle	24	static

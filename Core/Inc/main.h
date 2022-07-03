@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "rylr998.h"
+
 
 /* USER CODE END Includes */
 
@@ -48,7 +48,7 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -69,6 +69,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 
 extern UART_HandleTypeDef 	huart1;
+extern TIM_HandleTypeDef 	htim2;
 #define LED_ON 				HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_RESET)
 #define LED_OFF 			HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_SET)
 /* USER CODE END Private defines */

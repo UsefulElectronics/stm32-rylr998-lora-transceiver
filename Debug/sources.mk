@@ -24,5 +24,7 @@ SUBDIRS := \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \
-modules \
+lora_module \
+motion_sensor \
+siren \
 
