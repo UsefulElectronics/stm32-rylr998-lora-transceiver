@@ -20,10 +20,10 @@
 #include "stdlib.h"
 
 /* MACROS --------------------------------------------------------------------*/
-#define SIREN_INITIAL_TONE			50
-#define SIREN_LIMIT_TONE			200
+#define SIREN_INITIAL_TONE			125
+#define SIREN_LIMIT_TONE			250
 #define SIREN_INITIAL_SOUND_LEVEL	500
-#define SIREN_INITIAL_SOUND_LEVEL	500
+
 #define SIREN_SILENT				0
 /* ENUMORATIONS --------------------------------------------------------------*/
 

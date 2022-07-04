@@ -111,8 +111,8 @@ int main(void)
 
 
   sirenInitialize(&hSiren,
-  					500,
-  					50,
+  					100,
+  					10,
   					1);
   sirenSoundLevelSet(&hSiren, (uint32_t*) &htim2.Instance->CCR1, 50);
 
@@ -162,7 +162,11 @@ int main(void)
 
 		if(hUloraProtocol.uloraPirDetection)
 		{
-			sirenStart(&hSiren,(uint32_t*) &htim2.Instance->CCR1, HAL_GetTick());
+			if(0 == hSiren.activisionStatus)
+			{
+				sirenStart(&hSiren,(uint32_t*) &htim2.Instance->CCR1, HAL_GetTick());
+			}
+
 		}
 		else
 		{

@@ -44,7 +44,7 @@ void sirenHandler(sirenHandler_t* sirenHandler, uint32_t* sirenTone, uint32_t cu
 			if(sirenHandler->toneDirection)
 			{
 				*sirenTone += sirenHandler->oneStep;
-				if(*sirenTone <= SIREN_LIMIT_TONE)
+				if(*sirenTone >= SIREN_LIMIT_TONE)
 				{
 					sirenHandler->toneDirection = false;
 				}
@@ -105,7 +105,7 @@ void sirenStart(sirenHandler_t* sirenHandler, uint32_t* newSoundLevel, uint32_t 
 	sirenHandler->activisionStatus 	= true;
 	sirenHandler->timer 			= currentTickValue;
 	sirenHandler->toneDirection		= true;
-	*newSoundLevel 					= SIREN_INITIAL_SOUND_LEVEL;
+	*newSoundLevel 					= sirenHandler->soundLevel;
 
 }
 /**
