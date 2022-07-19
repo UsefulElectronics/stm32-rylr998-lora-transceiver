@@ -166,7 +166,6 @@ int main(void)
 			{
 				sirenStart(&hSiren,(uint32_t*) &htim2.Instance->CCR1, HAL_GetTick());
 			}
-
 		}
 		else
 		{
@@ -424,29 +423,31 @@ void receiverTask(void)
 	{
 	  LED_OFF;
 	}
-	  //Send PIR sensor status continuously to the main alarm board
-	  if(HAL_GetTick() - hLoRaModule.rylr998SensorTimer  > 500)
-	  {
-		  hLoRaModule.rylr998SensorTimer 	= HAL_GetTick();
+	//Send PIR sensor status continuously to the main alarm board
+	if(HAL_GetTick() - hLoRaModule.rylr998SensorTimer  > 500)
+	{
+		hLoRaModule.rylr998SensorTimer 	= HAL_GetTick();
 
-		  hUloraProtocol.uloraPirDetection 	= hc_sr501ReadStatus(&hPirSensor);
+		hUloraProtocol.uloraPirDetection= hc_sr501ReadStatus(&hPirSensor);
 
-		  rylr998Send(&hLoRaModule, ULORA_PIR_SENS);
+		rylr998Send(&hLoRaModule, ULORA_PIR_SENS);
 
-	  }
-	  //PIR sensor handler
-
-	  //ACK handler
-	  if(RYLR998_ReadSuccessfulTxFlag())
-	  {
-		  RYLR998_WriteSuccessfulTxFlag(DISABLE);
-		  hLoRaModule.rylr998Timer = HAL_GetTick();
-		  LED_ON;
-	  }
-	  if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
-	  {
-		  LED_OFF;
-	  }
+	}
+	//PIR sensor handler
+	hc_sr501Handle( &hPirSensor,
+				  HAL_GPIO_ReadPin(PIR_OUT_GPIO_Port, PIR_OUT_Pin),
+				  HAL_GetTick());
+	//ACK handler
+	if(RYLR998_ReadSuccessfulTxFlag())
+	{
+		RYLR998_WriteSuccessfulTxFlag(DISABLE);
+		hLoRaModule.rylr998Timer = HAL_GetTick();
+		LED_ON;
+	}
+	if(HAL_GetTick() - hLoRaModule.rylr998Timer > 300)
+	{
+	  LED_OFF;
+	}
 
 
 }

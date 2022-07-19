@@ -3037,7 +3037,7 @@ Discarded input sections
  .debug_macro   0x0000000000000000       0x35 ./motion_sensor/hc_sr501.o
  .debug_macro   0x0000000000000000       0x20 ./motion_sensor/hc_sr501.o
  .debug_macro   0x0000000000000000       0x10 ./motion_sensor/hc_sr501.o
- .debug_line    0x0000000000000000      0x66b ./motion_sensor/hc_sr501.o
+ .debug_line    0x0000000000000000      0x68d ./motion_sensor/hc_sr501.o
  .debug_str     0x0000000000000000     0x7514 ./motion_sensor/hc_sr501.o
  .comment       0x0000000000000000       0x51 ./motion_sensor/hc_sr501.o
  .debug_frame   0x0000000000000000      0x144 ./motion_sensor/hc_sr501.o
