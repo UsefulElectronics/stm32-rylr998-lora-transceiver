@@ -21,3 +21,14 @@ The code running on the receiver board has been added and now the receiver answe
 I have done a LoRa long range communication test to test the module limits. The test was done in several locations with gradual increase of communication distance. You won't believe how far I could get with these modules exchanging non corrupted data !.
 
 ![Circuit Diagram](https://github.com/UsefulElectronics/stm32-rylr998-lora-transceiver/blob/master/Circuit%20Diagrams/Range%20Test%20Cover.jpg)
+
+***
+
+### STM32 LoRa Wireless PIR Motion Sensor
+### [Tutorial Link](https://youtu.be/aKUESTVg_8A) On [![Build Status](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/aKUESTVg_8A) 
+
+A simple wireless PIR motion sensor is designed and build over LoRa. the project includes 2 board with to STM32 MCUs. One of them is interfacing a PIR sensor and the other one emulates siren sound using a buzzer. Two MCUs are communicating witlessly over LoRa  
+
+![Circuit Diagram](https://github.com/UsefulElectronics/stm32-rylr998-lora-transceiver/blob/master/Circuit%20Diagrams/PIR%20sensor%20video%20cover.jpg)
+
+***
